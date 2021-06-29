@@ -1,6 +1,7 @@
 package com.katyshevtceva.collage;
 
 import com.katyshevtceva.collage.logic.Collage;
+import com.katyshevtceva.collage.logic.CollageBuilder;
 import com.katyshevtseva.fx.WindowBuilder.FxController;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
@@ -14,8 +15,11 @@ class Controller implements FxController {
 
     @FXML
     private void initialize() {
-        Collage collage = new Collage(COLLAGE_WIDTH, COLLAGE_HEIGHT);
-        collage.setColor("#F08080");
-        collagePane.getChildren().add(collage.getNode());
+        Collage collage = new CollageBuilder()
+                .height(COLLAGE_HEIGHT)
+                .width(COLLAGE_WIDTH)
+                .color("#F08080")
+                .build();
+        collagePane.getChildren().add(collage.getPane());
     }
 }
