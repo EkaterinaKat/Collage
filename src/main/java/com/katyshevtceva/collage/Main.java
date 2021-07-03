@@ -4,8 +4,8 @@ import com.katyshevtseva.fx.WindowBuilder;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import static com.katyshevtceva.collage.Constants.COLLAGE_HEIGHT;
-import static com.katyshevtceva.collage.Constants.COLLAGE_WIDTH;
+import static com.katyshevtceva.collage.Controller.COLLAGE_HEIGHT;
+import static com.katyshevtceva.collage.Controller.COLLAGE_WIDTH;
 
 public class Main extends Application {
 
