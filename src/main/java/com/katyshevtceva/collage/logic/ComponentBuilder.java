@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.katyshevtceva.collage.logic.Constants.DEFAULT_INIT_COMPONENT_RELATIVE_WIDTH;
+import static com.katyshevtceva.collage.logic.Utils.getHeightByWidth;
 
 public class ComponentBuilder {
     private Collage collage;
@@ -64,7 +65,7 @@ public class ComponentBuilder {
             frontImage = imageViews.get(0);
 
         double initWidth = relativeWidth * collage.getWidth();
-        double initHeight = (frontImage.getImage().getHeight() * initWidth) / frontImage.getImage().getWidth();
+        double initHeight = getHeightByWidth(frontImage, initWidth);
 
         Point initPosition;
         if (relativePosition != null) {
