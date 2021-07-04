@@ -11,6 +11,7 @@ public class Collage {
 
     Collage(Pane pane) {
         this.pane = pane;
+        new ModificationEngine(this);
     }
 
     public Pane getPane() {
@@ -30,6 +31,18 @@ public class Collage {
 
     double getHeight() {
         return pane.getMinHeight();
+    }
+
+    boolean editingMode() {
+        return true; //todo
+    }
+
+    List<Component> getComponents() {
+        return components;
+    }
+
+    void moveComponentToFirstPlan(Component component) {
+        //todo
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////

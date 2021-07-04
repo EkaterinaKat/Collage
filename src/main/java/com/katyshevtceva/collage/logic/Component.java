@@ -1,5 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.Point;
 import javafx.scene.image.ImageView;
 
 import java.util.List;
@@ -23,6 +24,30 @@ public class Component {
 
     ImageView getFrontImage() {
         return frontImage;
+    }
+
+    boolean imageContainsPoint(Point point) {
+        return ((point.getX() > frontImage.getX()) && (point.getX() < (frontImage.getX() + frontImage.getFitWidth())))
+                && ((point.getY() > frontImage.getY()) && (point.getY() < (frontImage.getY() + frontImage.getFitHeight())));
+    }
+
+    Point getPos() {
+        return new Point(frontImage.getX(), frontImage.getY());
+    }
+
+    void relocateIfAllowable(Point newPos) {
+        boolean relocationAllowable = newPos.getX() > 0 && newPos.getY() > 0 &&
+                newPos.getX() + frontImage.getFitWidth() < collage.getWidth()
+                && newPos.getY() + frontImage.getFitHeight() < collage.getHeight();
+
+        if (relocationAllowable) {
+            frontImage.setX(newPos.getX());
+            frontImage.setY(newPos.getY());
+        }
+    }
+
+    int getZ() {
+        return 1; //todo
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
