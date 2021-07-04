@@ -1,7 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.Point;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 
 class ComponentModification {
@@ -36,7 +35,7 @@ class ComponentModification {
         RESIZING, MOVING
     }
 
-    void reportDragEvent(DragEvent event) {
+    void reportDragEvent(MouseEvent event) {
         if (modificationType == ModificationType.MOVING) {
             relocateIfAllowable(event);
         }
@@ -45,7 +44,7 @@ class ComponentModification {
 //        }
     }
 
-    private void relocateIfAllowable(DragEvent event) {
+    private void relocateIfAllowable(MouseEvent event) {
         Point newPos = new Point(event.getX() - cursorInitPos.getX() + imageInitPos.getX(),
                 event.getY() - cursorInitPos.getY() + imageInitPos.getY());
         component.relocateIfAllowable(newPos);

@@ -36,12 +36,15 @@ public class Component {
     }
 
     void relocateIfAllowable(Point newPos) {
-        boolean relocationAllowable = newPos.getX() > 0 && newPos.getY() > 0 &&
-                newPos.getX() + frontImage.getFitWidth() < collage.getWidth()
-                && newPos.getY() + frontImage.getFitHeight() < collage.getHeight();
-
-        if (relocationAllowable) {
+        boolean xAxisRelocationAllowable = newPos.getX() > 0
+                && newPos.getX() + frontImage.getFitWidth() < collage.getWidth();
+        if (xAxisRelocationAllowable) {
             frontImage.setX(newPos.getX());
+        }
+
+        boolean yAxisRelocationAllowable = newPos.getY() > 0
+                && newPos.getY() + frontImage.getFitHeight() < collage.getHeight();
+        if (yAxisRelocationAllowable) {
             frontImage.setY(newPos.getY());
         }
     }

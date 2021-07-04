@@ -1,8 +1,5 @@
 package com.katyshevtceva.collage.logic;
 
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 
 import java.util.Comparator;
@@ -21,15 +18,9 @@ class ModificationEngine {
     }
 
     private void tuneComponentModificationMechanism() {
-        collagePane.setOnDragDetected(event -> {
+        collagePane.setOnMousePressed(event -> {
             if (!collage.editingMode())
                 return;
-
-            Dragboard db = collagePane.startDragAndDrop(TransferMode.ANY);
-            ClipboardContent content = new ClipboardContent();
-            content.putString("");
-            db.setContent(content);
-            event.consume();
 
             List<Component> components = collage.getComponents().stream()
                     .sorted(Comparator.comparing(Component::getZ).reversed())
@@ -44,15 +35,10 @@ class ModificationEngine {
             }
         });
 
-        collagePane.setOnDragOver(event -> {
+        collagePane.setOnMouseDragged(event -> {
             if (currentModification != null) {
                 currentModification.reportDragEvent(event);
             }
-        });
-
-        collagePane.setOnDragDone(event -> {
-            currentModification = null;
-            event.consume();
         });
     }
 }
