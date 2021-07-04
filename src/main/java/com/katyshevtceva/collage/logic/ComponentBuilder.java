@@ -16,6 +16,7 @@ public class ComponentBuilder {
     private List<String> imagePaths;
     private Point relativePosition;
     private double relativeWidth = DEFAULT_INIT_COMPONENT_RELATIVE_WIDTH;
+    private int z = 1;
 
     public ComponentBuilder(Collage collage, List<String> imagePaths) {
         if (imagePaths.size() == 0)
@@ -52,6 +53,11 @@ public class ComponentBuilder {
         return this;
     }
 
+    public ComponentBuilder z(int z) {
+        this.z = z;
+        return this;
+    }
+
     public Component build() {
         List<ImageView> imageViews = new ArrayList<>();
         ImageView frontImage = null;
@@ -84,7 +90,7 @@ public class ComponentBuilder {
         frontImage.setX(initPosition.getX());
         frontImage.setY(initPosition.getY());
 
-        return new Component(collage, frontImage, imageViews);
+        return new Component(collage, frontImage, imageViews, z);
     }
 
 }

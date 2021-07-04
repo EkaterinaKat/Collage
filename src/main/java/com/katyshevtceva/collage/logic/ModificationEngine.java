@@ -19,7 +19,7 @@ class ModificationEngine {
 
     private void tuneComponentModificationMechanism() {
         collagePane.setOnMousePressed(event -> {
-            if (!collage.editingMode())
+            if (!collage.isEditingMode())
                 return;
 
             List<Component> components = collage.getComponents().stream()
@@ -29,7 +29,7 @@ class ModificationEngine {
             for (Component component : components) {
                 currentModification = ComponentModification.getModificationIfNeededOrNull(component, event);
                 if (currentModification != null) {
-                    collage.moveComponentToFirstPlan(component);
+                    collage.moveComponentToFirstPlanAndRefillPane(component);
                     break;
                 }
             }
