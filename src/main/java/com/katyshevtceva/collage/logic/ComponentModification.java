@@ -12,10 +12,10 @@ class ComponentModification {
     static ComponentModification getModificationIfNeededOrNull(Component component, MouseEvent dragEvent) {
         Point dragStartPoint = new Point(dragEvent.getX(), dragEvent.getY());
 
-//        boolean sizeAdjusterContainPoint = component.sizeAdjusterContainsPoint(dragStartPoint);
-//        if (sizeAdjusterContainPoint) {
-//            return new ComponentModification(ComponentModification.ModificationType.RESIZING, dragStartPoint, component);
-//        }
+        boolean sizeAdjusterContainPoint = component.sizeAdjusterContainsPoint(dragStartPoint);
+        if (sizeAdjusterContainPoint) {
+            return new ComponentModification(ComponentModification.ModificationType.RESIZING, dragStartPoint, component);
+        }
 
         if (component.imageContainsPoint(dragStartPoint)) {
             return new ComponentModification(ComponentModification.ModificationType.MOVING, dragStartPoint, component);
@@ -38,10 +38,9 @@ class ComponentModification {
     void reportDragEvent(MouseEvent event) {
         if (modificationType == ModificationType.MOVING) {
             relocateIfAllowable(event);
+        } else if (modificationType == ComponentModification.ModificationType.RESIZING) {
+            resizeIfAllowable(event);
         }
-//        else if (modificationType == ComponentModification.ModificationType.RESIZING) {
-//            resizeIfAllowable(event);
-//        }
     }
 
     private void relocateIfAllowable(MouseEvent event) {
@@ -50,8 +49,8 @@ class ComponentModification {
         component.relocateIfAllowable(newPos);
     }
 
-//    private void resizeIfAllowable(DragEvent event) {
-//        double newWidth = event.getX() - component.getPos().getX();
-//        component.resizeIfAllowable(newWidth);
-//    }
+    private void resizeIfAllowable(MouseEvent event) {
+        double newWidth = event.getX() - component.getPos().getX();
+        component.resizeIfAllowable(newWidth);
+    }
 }

@@ -5,11 +5,11 @@ import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
-import static com.katyshevtceva.collage.logic.Utils.setSizeByHeight;
-import static com.katyshevtceva.collage.logic.Utils.setSizeByWidth;
+import static com.katyshevtceva.collage.logic.Constants.MIN_COMPONENT_RELATIVE_WIDTH;
+import static com.katyshevtceva.collage.logic.Utils.*;
 
 public class Component {
     private Collage collage;
@@ -19,6 +19,7 @@ public class Component {
     @Getter
     @Setter
     private int z;
+    private SizeAdjuster sizeAdjuster;
 
     Component(Collage collage, ImageView frontImage, List<ImageView> images, int z) {
         this.collage = collage;
@@ -26,6 +27,7 @@ public class Component {
         this.images = images;
         this.z = z;
         correctImageSizeAndPosIfNeeded();
+        sizeAdjuster = new SizeAdjuster(collage, this);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,10 +57,29 @@ public class Component {
         } else {
             frontImage.setY(newPos.getY());
         }
+        sizeAdjuster.setPos();
+    }
+
+    void resizeIfAllowable(double newWidth) {
+        double newHeight = getHeightByWidth(frontImage, newWidth);
+
+        boolean resizeAllowable = frontImage.getX() + newWidth < collage.getWidth()
+                && frontImage.getY() + newHeight < collage.getHeight()
+                && newWidth > collage.getWidth() * MIN_COMPONENT_RELATIVE_WIDTH;
+
+        if (resizeAllowable) {
+            frontImage.setFitWidth(newWidth);
+            frontImage.setFitHeight(newHeight);
+            sizeAdjuster.setPos();
+        }
     }
 
     List<ImageView> getFrontImageWithButtons() {
-        return Collections.singletonList(frontImage); //todo
+        return Arrays.asList(frontImage, sizeAdjuster.getImageView());
+    }
+
+    boolean sizeAdjusterContainsPoint(Point point) {
+        return sizeAdjuster.containsPoint(point);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
