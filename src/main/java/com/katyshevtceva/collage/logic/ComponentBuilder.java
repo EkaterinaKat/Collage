@@ -1,7 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.Point;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -12,25 +11,25 @@ import static com.katyshevtceva.collage.logic.Utils.getHeightByWidth;
 
 public class ComponentBuilder {
     private Collage collage;
-    private String frontImagePath;
-    private List<String> imagePaths;
+    private String frontImageUrl;
+    private List<String> imageUrls;
     private Point relativePosition;
     private double relativeWidth = DEFAULT_INIT_COMPONENT_RELATIVE_WIDTH;
     private int z = 1;
 
-    public ComponentBuilder(Collage collage, List<String> imagePaths) {
-        if (imagePaths.size() == 0)
+    public ComponentBuilder(Collage collage, List<String> imageUrls) {
+        if (imageUrls.size() == 0)
             throw new RuntimeException();
 
         this.collage = collage;
-        this.imagePaths = imagePaths;
+        this.imageUrls = imageUrls;
     }
 
-    public ComponentBuilder frontImage(String path) {
-        if (!imagePaths.contains(path))
+    public ComponentBuilder frontImage(String url) {
+        if (!imageUrls.contains(url))
             throw new RuntimeException();
 
-        this.frontImagePath = path;
+        this.frontImageUrl = url;
         return this;
     }
 
@@ -59,16 +58,16 @@ public class ComponentBuilder {
     }
 
     public Component build() {
-        List<ImageView> imageViews = new ArrayList<>();
-        ImageView frontImage = null;
-        for (String path : imagePaths) {
-            ImageView imageView = new ImageView(new Image(path));
-            imageViews.add(imageView);
-            if (path.equals(frontImagePath))
-                frontImage = imageView;
+        List<Image> images = new ArrayList<>();
+        Image frontImage = null;
+        for (String url : imageUrls) {
+            Image image = new Image(new ImageView(new javafx.scene.image.Image(url)), url);
+            images.add(image);
+            if (url.equals(frontImageUrl))
+                frontImage = image;
         }
         if (frontImage == null)
-            frontImage = imageViews.get(0);
+            frontImage = images.get(0);
 
         double initWidth = relativeWidth * collage.getWidth();
         double initHeight = getHeightByWidth(frontImage, initWidth);
@@ -90,7 +89,7 @@ public class ComponentBuilder {
         frontImage.setX(initPosition.getX());
         frontImage.setY(initPosition.getY());
 
-        return new Component(collage, frontImage, imageViews, z);
+        return new Component(collage, frontImage, images, z);
     }
 
 }

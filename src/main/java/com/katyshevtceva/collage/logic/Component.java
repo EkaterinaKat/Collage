@@ -16,14 +16,14 @@ import static com.katyshevtceva.collage.logic.Utils.*;
 public class Component {
     private Collage collage;
     @Getter
-    private ImageView frontImage;
-    private List<ImageView> images;
+    private Image frontImage;
+    private List<Image> images;
     @Getter
     @Setter
     private int z;
     private SizeAdjuster sizeAdjuster;
 
-    Component(Collage collage, ImageView frontImage, List<ImageView> images, int z) {
+    Component(Collage collage, Image frontImage, List<Image> images, int z) {
         this.collage = collage;
         this.frontImage = frontImage;
         this.images = images;
@@ -36,8 +36,8 @@ public class Component {
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     boolean imageContainsPoint(Point point) {
-        return ((point.getX() > frontImage.getX()) && (point.getX() < (frontImage.getX() + frontImage.getFitWidth())))
-                && ((point.getY() > frontImage.getY()) && (point.getY() < (frontImage.getY() + frontImage.getFitHeight())));
+        return ((point.getX() > frontImage.getX()) && (point.getX() < (frontImage.getX() + frontImage.getWidth())))
+                && ((point.getY() > frontImage.getY()) && (point.getY() < (frontImage.getY() + frontImage.getHeight())));
     }
 
     Point getPos() {
@@ -47,16 +47,16 @@ public class Component {
     void relocateIfAllowable(Point newPos) {
         if (newPos.getX() < 0) {
             frontImage.setX(0);
-        } else if (newPos.getX() > collage.getWidth() - frontImage.getFitWidth()) {
-            frontImage.setX(collage.getWidth() - frontImage.getFitWidth());
+        } else if (newPos.getX() > collage.getWidth() - frontImage.getWidth()) {
+            frontImage.setX(collage.getWidth() - frontImage.getWidth());
         } else {
             frontImage.setX(newPos.getX());
         }
 
         if (newPos.getY() < 0) {
             frontImage.setY(0);
-        } else if (newPos.getY() > collage.getHeight() - frontImage.getFitHeight()) {
-            frontImage.setY(collage.getHeight() - frontImage.getFitHeight());
+        } else if (newPos.getY() > collage.getHeight() - frontImage.getHeight()) {
+            frontImage.setY(collage.getHeight() - frontImage.getHeight());
         } else {
             frontImage.setY(newPos.getY());
         }
@@ -78,7 +78,7 @@ public class Component {
     }
 
     List<ImageView> getFrontImageWithButtons() {
-        return Arrays.asList(frontImage, sizeAdjuster.getImageView());
+        return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView());
     }
 
     boolean sizeAdjusterContainsPoint(Point point) {
@@ -96,27 +96,27 @@ public class Component {
 
         frontImage.setOnContextMenuRequested(e -> {
             if (collage.isEditingMode())
-                contextMenu.show(frontImage, e.getScreenX(), e.getScreenY());
+                contextMenu.show(frontImage.getImageView(), e.getScreenX(), e.getScreenY());
         });
     }
 
     private void correctImageSizeAndPosIfNeeded() {
-        if (frontImage.getFitWidth() > collage.getWidth())
+        if (frontImage.getWidth() > collage.getWidth())
             setSizeByWidth(frontImage, collage.getWidth());
 
-        if (frontImage.getFitHeight() > collage.getHeight())
+        if (frontImage.getHeight() > collage.getHeight())
             setSizeByHeight(frontImage, collage.getHeight());
 
         if (frontImage.getX() < 0)
             frontImage.setX(0);
 
-        if (frontImage.getX() > collage.getWidth() - frontImage.getFitWidth())
-            frontImage.setX(collage.getWidth() - frontImage.getFitWidth());
+        if (frontImage.getX() > collage.getWidth() - frontImage.getWidth())
+            frontImage.setX(collage.getWidth() - frontImage.getWidth());
 
         if (frontImage.getY() < 0)
             frontImage.setY(0);
 
-        if (frontImage.getY() > collage.getHeight() - frontImage.getFitHeight())
-            frontImage.setY(collage.getHeight() - frontImage.getFitHeight());
+        if (frontImage.getY() > collage.getHeight() - frontImage.getHeight())
+            frontImage.setY(collage.getHeight() - frontImage.getHeight());
     }
 }

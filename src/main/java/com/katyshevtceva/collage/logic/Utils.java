@@ -1,26 +1,22 @@
 package com.katyshevtceva.collage.logic;
 
-
-import javafx.scene.image.ImageView;
-
 class Utils {
 
-    static void setSizeByWidth(ImageView imageView, double newWidth) {
-        imageView.setFitWidth(newWidth);
-        imageView.setFitHeight(getHeightByWidth(imageView, newWidth));
+    static void setSizeByWidth(Image image, double newWidth) {
+        image.setFitWidth(newWidth);
+        image.setFitHeight(getHeightByWidth(image, newWidth));
     }
 
-    static double getHeightByWidth(ImageView imageView, double width) {
-        return (imageView.getImage().getHeight() * width) / imageView.getImage().getWidth();
+    static double getHeightByWidth(Image image, double width) {
+        return image.getHeightToWidthRatio() * width;
     }
 
-    static void setSizeByHeight(ImageView imageView, double newHeight) {
-        imageView.setFitHeight(newHeight);
-        imageView.setFitWidth(getWidthByHeight(imageView, newHeight));
+    static void setSizeByHeight(Image image, double newHeight) {
+        image.setFitHeight(newHeight);
+        image.setFitWidth(getWidthByHeight(image, newHeight));
     }
 
-    private static double getWidthByHeight(ImageView imageView, double height) {
-        return (imageView.getImage().getWidth() * height) / imageView.getImage().getHeight();
+    private static double getWidthByHeight(Image image, double height) {
+        return height / image.getHeightToWidthRatio();
     }
-
 }

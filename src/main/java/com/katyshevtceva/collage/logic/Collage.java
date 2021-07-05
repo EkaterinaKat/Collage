@@ -63,7 +63,7 @@ public class Collage {
             if (editingMode)
                 pane.getChildren().addAll(component.getFrontImageWithButtons());
             else
-                pane.getChildren().add(component.getFrontImage());
+                pane.getChildren().add(component.getFrontImage().getImageView());
         }
     }
 
