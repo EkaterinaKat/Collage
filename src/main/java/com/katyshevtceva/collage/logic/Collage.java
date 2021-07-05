@@ -49,6 +49,11 @@ public class Collage {
         refillPaneWithComponents();
     }
 
+    void deleteComponent(Component component) {
+        components.remove(component);
+        refillPaneWithComponents();
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void refillPaneWithComponents() {

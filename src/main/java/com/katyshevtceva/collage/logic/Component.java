@@ -1,6 +1,8 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.Point;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +30,7 @@ public class Component {
         this.z = z;
         correctImageSizeAndPosIfNeeded();
         sizeAdjuster = new SizeAdjuster(collage, this);
+        setContextMenuOnFrontImage();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +86,19 @@ public class Component {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void setContextMenuOnFrontImage() {
+        MenuItem deleteItem = new MenuItem("Delete");
+        deleteItem.setOnAction(event -> collage.deleteComponent(this));
+
+        ContextMenu contextMenu = new ContextMenu();
+        contextMenu.getItems().addAll(deleteItem);
+
+        frontImage.setOnContextMenuRequested(e -> {
+            if (collage.isEditingMode())
+                contextMenu.show(frontImage, e.getScreenX(), e.getScreenY());
+        });
+    }
 
     private void correctImageSizeAndPosIfNeeded() {
         if (frontImage.getFitWidth() > collage.getWidth())
