@@ -29,7 +29,7 @@ class ModificationEngine {
             for (Component component : components) {
                 currentModification = ComponentModification.getModificationIfNeededOrNull(component, event);
                 if (currentModification != null) {
-                    collage.moveComponentToFirstPlanAndRefillPane(component);
+                    collage.moveComponentToFirstPlan(component);
                     break;
                 }
             }

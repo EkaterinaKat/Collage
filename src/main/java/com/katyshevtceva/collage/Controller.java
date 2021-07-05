@@ -30,6 +30,7 @@ class Controller implements FxController {
                 .frontImage("/images/1.jpg")
                 .relativeWidth(0.5)
                 .relativePosition(new Point(0.1, 0.1))
+                .z(2)
                 .build();
         collage.addComponent(component1);
 
@@ -37,7 +38,16 @@ class Controller implements FxController {
                 .frontImage("/images/3.png")
                 .relativeWidth(0.3)
                 .relativePosition(new Point(0.05, 0.05))
+                .z(3)
                 .build();
         collage.addComponent(component2);
+
+        Component component3 = new ComponentBuilder(collage, Arrays.asList("/images/5.png", "/images/6.jpg"))
+                .frontImage("/images/5.png")
+                .relativeWidth(0.4)
+                .relativePosition(new Point(0, 0))
+                .z(1)
+                .build();
+        collage.addComponent(component3);
     }
 }

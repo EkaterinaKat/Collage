@@ -23,8 +23,10 @@ public class Collage {
     }
 
     public void addComponent(Component component) {
+        if (components.stream().anyMatch(component1 -> component1.getZ() == component.getZ()))
+            component.setZ(getImagesMaxZ() + 1);
         components.add(component);
-        moveComponentToFirstPlanAndRefillPane(component);
+        refillPaneWithComponents();
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,15 +43,15 @@ public class Collage {
         return components;
     }
 
-    void moveComponentToFirstPlanAndRefillPane(Component component) {
+    void moveComponentToFirstPlan(Component component) {
         component.setZ(getImagesMaxZ() + 1);
         normalizeZCoordinates();
-        clearAndRefillPaneWithComponents();
+        refillPaneWithComponents();
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void clearAndRefillPaneWithComponents() {
+    private void refillPaneWithComponents() {
         pane.getChildren().clear();
         components.sort(Comparator.comparing(Component::getZ));
         for (Component component : components) {
