@@ -36,6 +36,9 @@ class ModificationEngine {
         });
 
         collagePane.setOnMouseDragged(event -> {
+            if (!collage.isEditingMode())
+                return;
+
             if (currentModification != null) {
                 currentModification.reportDragEvent(event);
             }

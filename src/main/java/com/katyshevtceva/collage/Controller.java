@@ -7,15 +7,19 @@ import com.katyshevtceva.collage.logic.ComponentBuilder;
 import com.katyshevtseva.fx.Point;
 import com.katyshevtseva.fx.WindowBuilder.FxController;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Pane;
 
 import java.util.Arrays;
 
 class Controller implements FxController {
+    private static final boolean DEFAULT_EDITING_MODE = true;
     static final int COLLAGE_WIDTH = 1000;
     static final int COLLAGE_HEIGHT = 780;
     @FXML
     private Pane collagePane;
+    @FXML
+    private CheckBox editModeCheckBox;
 
     @FXML
     private void initialize() {
@@ -23,6 +27,7 @@ class Controller implements FxController {
                 .height(COLLAGE_HEIGHT)
                 .width(COLLAGE_WIDTH)
                 .color("#F08080")
+                .editingMode(DEFAULT_EDITING_MODE)
                 .build();
         collagePane.getChildren().add(collage.getPane());
 
@@ -49,5 +54,8 @@ class Controller implements FxController {
                 .z(1)
                 .build();
         collage.addComponent(component3);
+
+        editModeCheckBox.setSelected(DEFAULT_EDITING_MODE);
+        editModeCheckBox.setOnAction(event -> collage.setEditingMode(editModeCheckBox.isSelected()));
     }
 }

@@ -7,6 +7,7 @@ public class CollageBuilder {
     private int width = 500;
     private int height = 500;
     private String color;
+    private boolean editingMode = true;
 
     public CollageBuilder width(int width) {
         this.width = width;
@@ -23,8 +24,13 @@ public class CollageBuilder {
         return this;
     }
 
+    public CollageBuilder editingMode(boolean editingMode) {
+        this.editingMode = editingMode;
+        return this;
+    }
+
     public Collage build() {
-        return new Collage(createPane());
+        return new Collage(createPane(), editingMode);
     }
 
     private Pane createPane() {

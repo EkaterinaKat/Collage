@@ -13,8 +13,9 @@ public class Collage {
     @Getter
     private boolean editingMode = true;
 
-    Collage(Pane pane) {
+    Collage(Pane pane, boolean editingMode) {
         this.pane = pane;
+        this.editingMode = editingMode;
         new ModificationEngine(this);
     }
 
@@ -26,6 +27,11 @@ public class Collage {
         if (components.stream().anyMatch(component1 -> component1.getZ() == component.getZ()))
             component.setZ(getImagesMaxZ() + 1);
         components.add(component);
+        refillPaneWithComponents();
+    }
+
+    public void setEditingMode(boolean editingMode) {
+        this.editingMode = editingMode;
         refillPaneWithComponents();
     }
 
