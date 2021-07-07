@@ -7,6 +7,6 @@
 
     <Pane fx:id="collagePane" styleClass="pink_background" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
-    <CheckBox fx:id="editModeCheckBox" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <CheckBox fx:id="editModeCheckBox" text="Editing mode" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
 </GridPane>

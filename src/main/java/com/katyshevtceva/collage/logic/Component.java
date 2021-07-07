@@ -22,6 +22,7 @@ public class Component {
     @Setter
     private int z;
     private SizeAdjuster sizeAdjuster;
+    private ImageSwitcher imageSwitcher;
 
     Component(Collage collage, Image frontImage, List<Image> images, int z) {
         this.collage = collage;
@@ -30,6 +31,7 @@ public class Component {
         this.z = z;
         correctImageSizeAndPosIfNeeded();
         sizeAdjuster = new SizeAdjuster(collage, this);
+        imageSwitcher = new ImageSwitcher(collage, this);
         setContextMenuOnFrontImage();
     }
 
@@ -61,6 +63,7 @@ public class Component {
             frontImage.setY(newPos.getY());
         }
         sizeAdjuster.setPos();
+        imageSwitcher.setPos();
     }
 
     void resizeIfAllowable(double newWidth) {
@@ -74,15 +77,20 @@ public class Component {
             frontImage.setFitWidth(newWidth);
             frontImage.setFitHeight(newHeight);
             sizeAdjuster.setPos();
+            imageSwitcher.setPos();
         }
     }
 
     List<ImageView> getFrontImageWithButtons() {
-        return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView());
+        return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView(), imageSwitcher.getImageView());
     }
 
     boolean sizeAdjusterContainsPoint(Point point) {
         return sizeAdjuster.containsPoint(point);
+    }
+
+    boolean imageSwitcherContainsPoint(Point point) {
+        return imageSwitcher.containsPoint(point);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////

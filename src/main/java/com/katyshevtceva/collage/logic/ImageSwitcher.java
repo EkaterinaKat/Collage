@@ -7,13 +7,13 @@ import lombok.Getter;
 
 import static com.katyshevtceva.collage.logic.Constants.BUTTON_SIZE_TO_COLLAGE_WIDTH_RATIO;
 
-class SizeAdjuster {
+class ImageSwitcher {
     private Component component;
     @Getter
     private ImageView imageView;
     private double buttonSize;
 
-    SizeAdjuster(Collage collage, Component component) {
+    ImageSwitcher(Collage collage, Component component) {
         this.component = component;
         buttonSize = collage.getWidth() * BUTTON_SIZE_TO_COLLAGE_WIDTH_RATIO;
         initializeImageView();
@@ -21,7 +21,7 @@ class SizeAdjuster {
     }
 
     private void initializeImageView() {
-        imageView = new ImageView(new Image("/icons/resizing_arrow.png"));
+        imageView = new ImageView(new Image("/icons/image_switcher.png"));
         imageView.setFitWidth(buttonSize);
         imageView.setFitHeight(buttonSize);
     }
@@ -33,6 +33,6 @@ class SizeAdjuster {
 
     void setPos() {
         imageView.setX(component.getPos().getX() + component.getFrontImage().getWidth() - imageView.getFitWidth() / 2);
-        imageView.setY(component.getPos().getY() + component.getFrontImage().getHeight() - imageView.getFitHeight() / 2);
+        imageView.setY(component.getPos().getY() + component.getFrontImage().getHeight() - imageView.getFitHeight() * 3 / 2);
     }
 }

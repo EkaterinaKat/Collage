@@ -12,13 +12,16 @@ class ComponentModification {
     static ComponentModification getModificationIfNeededOrNull(Component component, MouseEvent dragEvent) {
         Point dragStartPoint = new Point(dragEvent.getX(), dragEvent.getY());
 
-        boolean sizeAdjusterContainPoint = component.sizeAdjusterContainsPoint(dragStartPoint);
-        if (sizeAdjusterContainPoint) {
-            return new ComponentModification(ComponentModification.ModificationType.RESIZING, dragStartPoint, component);
+        if (component.imageSwitcherContainsPoint(dragStartPoint)) {
+            return new ComponentModification(ModificationType.IMAGE_SWITCHING, null, component);
+        }
+
+        if (component.sizeAdjusterContainsPoint(dragStartPoint)) {
+            return new ComponentModification(ModificationType.RESIZING, dragStartPoint, component);
         }
 
         if (component.imageContainsPoint(dragStartPoint)) {
-            return new ComponentModification(ComponentModification.ModificationType.MOVING, dragStartPoint, component);
+            return new ComponentModification(ModificationType.MOVING, dragStartPoint, component);
         }
 
         return null;
@@ -32,7 +35,7 @@ class ComponentModification {
     }
 
     private enum ModificationType {
-        RESIZING, MOVING
+        RESIZING, MOVING, IMAGE_SWITCHING
     }
 
     void reportDragEvent(MouseEvent event) {
