@@ -1,7 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.Point;
-import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +60,7 @@ public class ComponentBuilder {
         List<Image> images = new ArrayList<>();
         Image frontImage = null;
         for (String url : imageUrls) {
-            Image image = new Image(new ImageView(new javafx.scene.image.Image(url)), url);
+            Image image = new Image(url);
             images.add(image);
             if (url.equals(frontImageUrl))
                 frontImage = image;

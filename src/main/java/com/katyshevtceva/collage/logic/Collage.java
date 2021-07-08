@@ -6,16 +6,19 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Collage {
     private List<Component> components = new ArrayList<>();
+    private List<Image> allExistingImages;
     private Pane pane;
     @Getter
     private boolean editingMode = true;
 
-    Collage(Pane pane, boolean editingMode) {
+    Collage(Pane pane, boolean editingMode, List<Image> allExistingImages) {
         this.pane = pane;
         this.editingMode = editingMode;
+        this.allExistingImages = allExistingImages;
         new ModificationEngine(this);
     }
 
@@ -69,6 +72,15 @@ public class Collage {
             else
                 pane.getChildren().add(component.getFrontImage().getImageView());
         }
+    }
+
+    List<Image> getAllExistingImages() {
+        return allExistingImages.stream().filter(image -> {
+            for (Component component : components)
+                if (component.getImages().contains(image))
+                    return false;
+            return true;
+        }).collect(Collectors.toList());
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////

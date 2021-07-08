@@ -105,7 +105,7 @@ public class Component {
     }
 
     List<ImageView> getFrontImageWithButtons() {
-        if(images.size()==1)
+        if (images.size() == 1)
             return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView());
         return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView(), imageSwitcher.getImageView());
     }
@@ -113,11 +113,18 @@ public class Component {
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void setContextMenuOnFrontImage() {
+        ContextMenu contextMenu = new ContextMenu();
+
         MenuItem deleteItem = new MenuItem("Delete");
         deleteItem.setOnAction(event -> collage.deleteComponent(this));
+        contextMenu.getItems().add(deleteItem);
 
-        ContextMenu contextMenu = new ContextMenu();
-        contextMenu.getItems().addAll(deleteItem);
+        MenuItem addImage = new MenuItem("Add image");
+        addImage.setOnAction(event -> Utils.openImageSelectionDialog(collage.getAllExistingImages(), imageContainer -> {
+            images.add((Image) imageContainer);
+            switchImage((Image) imageContainer);
+        }));
+        contextMenu.getItems().add(addImage);
 
         frontImage.setOnContextMenuRequested(e -> {
             if (collage.isEditingMode())

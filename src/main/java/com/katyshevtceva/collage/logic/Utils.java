@@ -1,6 +1,12 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.ImageSizeUtil;
+import com.katyshevtseva.fx.dialog.StandardDialogBuilder;
+import com.katyshevtseva.fx.dialog.controller.ImageSelectDialogController.ImageContainer;
+import com.katyshevtseva.general.OneArgKnob;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class Utils {
 
@@ -12,5 +18,12 @@ class Utils {
     static void setSizeByHeight(Image image, double newHeight) {
         image.setFitHeight(newHeight);
         image.setFitWidth(ImageSizeUtil.getWidthByHeight(image.getImageView(), newHeight));
+    }
+
+    static void openImageSelectionDialog(List<Image> images, OneArgKnob<ImageContainer> listener) {
+        new StandardDialogBuilder()
+                .setIconPath(Config.designInfo == null ? null : Config.designInfo.getIconPath())
+                .setCssPath(Config.designInfo == null ? null : Config.designInfo.getCssPath())
+                .openImageSelectionDialog(new ArrayList<>(images), listener);
     }
 }

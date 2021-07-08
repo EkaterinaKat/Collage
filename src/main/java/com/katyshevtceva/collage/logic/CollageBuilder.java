@@ -4,11 +4,16 @@ import com.katyshevtseva.fx.DesignInfo;
 import com.katyshevtseva.fx.Styler;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CollageBuilder {
     private int width = 500;
     private int height = 500;
     private String color;
     private boolean editingMode = true;
+    private List<Image> allExistingImages = new ArrayList<>();
 
     public CollageBuilder designInfo(DesignInfo designInfo) {
         Config.designInfo = designInfo;
@@ -35,8 +40,13 @@ public class CollageBuilder {
         return this;
     }
 
+    public CollageBuilder allExistingImages(List<String> allExistingImagesUrls) {
+        this.allExistingImages = allExistingImagesUrls.stream().map(Image::new).collect(Collectors.toList());
+        return this;
+    }
+
     public Collage build() {
-        return new Collage(createPane(), editingMode);
+        return new Collage(createPane(), editingMode, allExistingImages);
     }
 
     private Pane createPane() {
