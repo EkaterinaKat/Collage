@@ -60,9 +60,7 @@ public class Collage {
         refillPaneWithComponents();
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private void refillPaneWithComponents() {
+    void refillPaneWithComponents() {
         pane.getChildren().clear();
         components.sort(Comparator.comparing(Component::getZ));
         for (Component component : components) {
@@ -72,6 +70,8 @@ public class Collage {
                 pane.getChildren().add(component.getFrontImage().getImageView());
         }
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
     private int getImagesMaxZ() {
         return components.stream().max(Comparator.comparing(Component::getZ)).get().getZ();

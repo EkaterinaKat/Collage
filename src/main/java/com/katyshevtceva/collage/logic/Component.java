@@ -32,9 +32,9 @@ public class Component {
         this.frontImage = frontImage;
         this.images = images;
         this.z = z;
-        correctImageSizeAndPosIfNeeded();
         sizeAdjuster = new SizeAdjuster(collage, this);
         imageSwitcher = new ImageSwitcher(collage, this);
+        correctImageSizeAndPosIfNeeded();
         setContextMenuOnFrontImage();
     }
 
@@ -58,7 +58,15 @@ public class Component {
     }
 
     void switchImage(Image image) {
-        System.out.println("selected " + image.getUrl()); //todo
+        image.setX(frontImage.getX());
+        image.setY(frontImage.getY());
+        Utils.setSizeByWidth(image, frontImage.getWidth());
+        frontImage = image;
+        correctImageSizeAndPosIfNeeded();
+        sizeAdjuster.setPos();
+        imageSwitcher.setPos();
+        setContextMenuOnFrontImage();
+        collage.refillPaneWithComponents();
     }
 
     void relocateIfAllowable(Point newPos) {
@@ -97,6 +105,8 @@ public class Component {
     }
 
     List<ImageView> getFrontImageWithButtons() {
+        if(images.size()==1)
+            return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView());
         return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView(), imageSwitcher.getImageView());
     }
 
@@ -133,5 +143,8 @@ public class Component {
 
         if (frontImage.getY() > collage.getHeight() - frontImage.getHeight())
             frontImage.setY(collage.getHeight() - frontImage.getHeight());
+
+        sizeAdjuster.setPos();
+        imageSwitcher.setPos();
     }
 }

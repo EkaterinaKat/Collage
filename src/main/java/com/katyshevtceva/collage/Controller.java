@@ -56,7 +56,7 @@ class Controller implements FxController {
                 .build();
         collage.addComponent(component1);
 
-        Component component2 = new ComponentBuilder(collage, Arrays.asList("/images/3.png", "/images/4.jpg"))
+        Component component2 = new ComponentBuilder(collage, Arrays.asList("/images/3.png"))
                 .frontImage("/images/3.png")
                 .relativeWidth(0.3)
                 .relativePosition(new Point(0.05, 0.05))
