@@ -1,11 +1,12 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.dialog.controller.ImageSelectDialogController.ImageContainer;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import lombok.Getter;
 
-class Image {
+class Image implements ImageContainer {
     @Getter
     private ImageView imageView;
     @Getter
@@ -50,9 +51,5 @@ class Image {
 
     void setOnContextMenuRequested(EventHandler<? super ContextMenuEvent> value) {
         imageView.setOnContextMenuRequested(value);
-    }
-
-    double getHeightToWidthRatio() {
-        return imageView.getImage().getHeight() / imageView.getImage().getWidth();
     }
 }

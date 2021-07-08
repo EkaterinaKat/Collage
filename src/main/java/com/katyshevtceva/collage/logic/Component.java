@@ -11,12 +11,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.katyshevtceva.collage.logic.Constants.MIN_COMPONENT_RELATIVE_WIDTH;
-import static com.katyshevtceva.collage.logic.Utils.*;
+import static com.katyshevtceva.collage.logic.Utils.setSizeByHeight;
+import static com.katyshevtceva.collage.logic.Utils.setSizeByWidth;
+import static com.katyshevtseva.fx.ImageSizeUtil.getHeightByWidth;
 
 public class Component {
     private Collage collage;
     @Getter
     private Image frontImage;
+    @Getter
     private List<Image> images;
     @Getter
     @Setter
@@ -42,8 +45,20 @@ public class Component {
                 && ((point.getY() > frontImage.getY()) && (point.getY() < (frontImage.getY() + frontImage.getHeight())));
     }
 
+    boolean sizeAdjusterContainsPoint(Point point) {
+        return sizeAdjuster.containsPoint(point);
+    }
+
+    boolean imageSwitcherContainsPoint(Point point) {
+        return imageSwitcher.containsPoint(point);
+    }
+
     Point getPos() {
         return new Point(frontImage.getX(), frontImage.getY());
+    }
+
+    void switchImage(Image image) {
+        System.out.println("selected " + image.getUrl()); //todo
     }
 
     void relocateIfAllowable(Point newPos) {
@@ -67,7 +82,7 @@ public class Component {
     }
 
     void resizeIfAllowable(double newWidth) {
-        double newHeight = getHeightByWidth(frontImage, newWidth);
+        double newHeight = getHeightByWidth(frontImage.getImageView(), newWidth);
 
         boolean resizeAllowable = frontImage.getX() + newWidth < collage.getWidth()
                 && frontImage.getY() + newHeight < collage.getHeight()
@@ -83,14 +98,6 @@ public class Component {
 
     List<ImageView> getFrontImageWithButtons() {
         return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView(), imageSwitcher.getImageView());
-    }
-
-    boolean sizeAdjusterContainsPoint(Point point) {
-        return sizeAdjuster.containsPoint(point);
-    }
-
-    boolean imageSwitcherContainsPoint(Point point) {
-        return imageSwitcher.containsPoint(point);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////

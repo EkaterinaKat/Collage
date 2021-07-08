@@ -1,5 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.DesignInfo;
 import com.katyshevtseva.fx.Styler;
 import javafx.scene.layout.Pane;
 
@@ -8,6 +9,11 @@ public class CollageBuilder {
     private int height = 500;
     private String color;
     private boolean editingMode = true;
+
+    public CollageBuilder designInfo(DesignInfo designInfo) {
+        Config.designInfo = designInfo;
+        return this;
+    }
 
     public CollageBuilder width(int width) {
         this.width = width;

@@ -31,7 +31,24 @@ class Controller implements FxController {
                 .build();
         collagePane.getChildren().add(collage.getPane());
 
-        Component component1 = new ComponentBuilder(collage, Arrays.asList("/images/1.jpg", "/images/2.jpg"))
+        Component component1 = new ComponentBuilder(collage, Arrays.asList(
+                "/images/1.jpg",
+                "/images/2.jpg",
+                "/images/3.png",
+                "/images/4.jpg",
+                "/images/5.png",
+                "/images/6.jpg",
+                "/images/7.png",
+                "/images/8.jpg",
+                "/images/9.jpg",
+                "/images/10.jpg",
+                "/images/11.jpg",
+                "/images/12.jpg",
+                "/images/13.jpg",
+                "/images/14.png",
+                "/images/15.png",
+                "/images/16.png",
+                "/images/17.jpg"))
                 .frontImage("/images/1.jpg")
                 .relativeWidth(0.5)
                 .relativePosition(new Point(0.1, 0.1))
