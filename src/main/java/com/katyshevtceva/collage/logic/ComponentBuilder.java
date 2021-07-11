@@ -16,6 +16,10 @@ public class ComponentBuilder {
     private double relativeWidth = DEFAULT_INIT_COMPONENT_RELATIVE_WIDTH;
     private int z = 1;
 
+    /**
+     * @param imageUrls должен содержать url фронтального изображения, если таковое имеется.
+     *                  Каждый url должен уже содержаться в collage в allExistingImages.
+     */
     public ComponentBuilder(Collage collage, List<String> imageUrls) {
         if (imageUrls.size() == 0)
             throw new RuntimeException();
@@ -64,6 +68,8 @@ public class ComponentBuilder {
             images.add(image);
             if (url.equals(frontImageUrl))
                 frontImage = image;
+            if (!collage.getAllExistingImages().contains(image))
+                throw new RuntimeException();
         }
         if (frontImage == null)
             frontImage = images.get(0);

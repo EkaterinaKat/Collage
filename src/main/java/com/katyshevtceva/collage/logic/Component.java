@@ -16,6 +16,7 @@ import static com.katyshevtceva.collage.logic.Utils.setSizeByWidth;
 import static com.katyshevtseva.fx.ImageSizeUtil.getHeightByWidth;
 
 public class Component {
+    @Getter
     private Collage collage;
     @Getter
     private Image frontImage;
@@ -110,6 +111,12 @@ public class Component {
         return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView(), imageSwitcher.getImageView());
     }
 
+    void setImages(List<Image> images) {
+        this.images = images;
+        if (!images.contains(frontImage))
+            switchImage(images.get(0));
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void setContextMenuOnFrontImage() {
@@ -120,7 +127,7 @@ public class Component {
         contextMenu.getItems().add(deleteItem);
 
         MenuItem addImage = new MenuItem("Add image");
-        addImage.setOnAction(event -> Utils.openImageSelectionDialog(collage.getAllExistingImages(), imageContainer -> {
+        addImage.setOnAction(event -> Utils.openImageSelectionDialog(collage.getFreeImages(), imageContainer -> {
             images.add((Image) imageContainer);
             switchImage((Image) imageContainer);
         }));

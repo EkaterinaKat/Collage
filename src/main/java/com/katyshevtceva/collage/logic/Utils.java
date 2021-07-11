@@ -26,4 +26,16 @@ class Utils {
                 .setCssPath(Config.designInfo == null ? null : Config.designInfo.getCssPath())
                 .openImageSelectionDialog(new ArrayList<>(images), listener);
     }
+
+    static void openEditableImageSelectionDialog(
+            List<Image> images,
+            List<Image> addableImages,
+            OneArgKnob<ImageContainer> imageClickListener,
+            OneArgKnob<List<ImageContainer>> windowCloseListener) {
+        new StandardDialogBuilder()
+                .setIconPath(Config.designInfo == null ? null : Config.designInfo.getIconPath())
+                .setCssPath(Config.designInfo == null ? null : Config.designInfo.getCssPath())
+                .openEditableImageSelectionDialog(new ArrayList<>(images), new ArrayList<>(addableImages),
+                        imageClickListener, windowCloseListener);
+    }
 }

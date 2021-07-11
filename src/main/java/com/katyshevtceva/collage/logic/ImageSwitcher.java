@@ -5,6 +5,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 
+import java.util.stream.Collectors;
+
 import static com.katyshevtceva.collage.logic.Constants.BUTTON_SIZE_TO_COLLAGE_WIDTH_RATIO;
 
 class ImageSwitcher {
@@ -24,8 +26,11 @@ class ImageSwitcher {
         imageView = new ImageView(new Image("/icons/image_switcher.png"));
         imageView.setFitWidth(buttonSize);
         imageView.setFitHeight(buttonSize);
-        imageView.setOnMouseClicked(event -> Utils.openImageSelectionDialog(component.getImages(),
-                imageContainer -> component.switchImage((com.katyshevtceva.collage.logic.Image) imageContainer)));
+        imageView.setOnMouseClicked(event -> Utils.openEditableImageSelectionDialog(
+                component.getImages(), component.getCollage().getFreeImages(),
+                imageContainer -> component.switchImage((com.katyshevtceva.collage.logic.Image) imageContainer),
+                imageContainers -> component.setImages(imageContainers.stream()
+                        .map(imageContainer -> (com.katyshevtceva.collage.logic.Image) imageContainer).collect(Collectors.toList()))));
     }
 
     boolean containsPoint(Point point) {

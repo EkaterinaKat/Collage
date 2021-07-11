@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public class Collage {
     private List<Component> components = new ArrayList<>();
+    @Getter
     private List<Image> allExistingImages;
     private Pane pane;
     @Getter
@@ -74,7 +75,7 @@ public class Collage {
         }
     }
 
-    List<Image> getAllExistingImages() {
+    List<Image> getFreeImages() {
         return allExistingImages.stream().filter(image -> {
             for (Component component : components)
                 if (component.getImages().contains(image))
