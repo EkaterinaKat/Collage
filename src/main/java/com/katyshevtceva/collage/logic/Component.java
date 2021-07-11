@@ -14,6 +14,7 @@ import static com.katyshevtceva.collage.logic.Constants.MIN_COMPONENT_RELATIVE_W
 import static com.katyshevtceva.collage.logic.Utils.setSizeByHeight;
 import static com.katyshevtceva.collage.logic.Utils.setSizeByWidth;
 import static com.katyshevtseva.fx.ImageSizeUtil.getHeightByWidth;
+import static com.katyshevtseva.fx.ImageSizeUtil.getWidthByHeight;
 
 public class Component {
     @Getter
@@ -93,16 +94,26 @@ public class Component {
     void resizeIfAllowable(double newWidth) {
         double newHeight = getHeightByWidth(frontImage.getImageView(), newWidth);
 
-        boolean resizeAllowable = frontImage.getX() + newWidth < collage.getWidth()
-                && frontImage.getY() + newHeight < collage.getHeight()
-                && newWidth > collage.getWidth() * MIN_COMPONENT_RELATIVE_WIDTH;
-
-        if (resizeAllowable) {
-            frontImage.setFitWidth(newWidth);
-            frontImage.setFitHeight(newHeight);
-            sizeAdjuster.setPos();
-            imageSwitcher.setPos();
+        if (newWidth > collage.getWidth() - frontImage.getX()) {
+            newWidth = collage.getWidth() - frontImage.getX();
+            newHeight = getHeightByWidth(frontImage.getImageView(), newWidth);
         }
+
+        if (newHeight > collage.getHeight() - frontImage.getY()) {
+            newHeight = collage.getHeight() - frontImage.getY();
+            newWidth = getWidthByHeight(frontImage.getImageView(), newHeight);
+        }
+
+        if (newWidth < collage.getWidth() * MIN_COMPONENT_RELATIVE_WIDTH) {
+            newWidth = collage.getWidth() * MIN_COMPONENT_RELATIVE_WIDTH;
+            newHeight = getHeightByWidth(frontImage.getImageView(), newWidth);
+        }
+
+        frontImage.setFitWidth(newWidth);
+        frontImage.setFitHeight(newHeight);
+        sizeAdjuster.setPos();
+        imageSwitcher.setPos();
+
     }
 
     List<ImageView> getFrontImageWithButtons() {
@@ -115,6 +126,7 @@ public class Component {
         this.images = images;
         if (!images.contains(frontImage))
             switchImage(images.get(0));
+        collage.refillPaneWithComponents();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
