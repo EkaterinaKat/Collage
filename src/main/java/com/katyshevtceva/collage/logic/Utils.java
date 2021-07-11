@@ -22,8 +22,6 @@ class Utils {
 
     static void openImageSelectionDialog(List<Image> images, OneArgKnob<ImageContainer> listener) {
         new StandardDialogBuilder()
-                .setIconPath(Config.designInfo == null ? null : Config.designInfo.getIconPath())
-                .setCssPath(Config.designInfo == null ? null : Config.designInfo.getCssPath())
                 .openImageSelectionDialog(new ArrayList<>(images), listener);
     }
 
@@ -33,8 +31,6 @@ class Utils {
             OneArgKnob<ImageContainer> imageClickListener,
             OneArgKnob<List<ImageContainer>> windowCloseListener) {
         new StandardDialogBuilder()
-                .setIconPath(Config.designInfo == null ? null : Config.designInfo.getIconPath())
-                .setCssPath(Config.designInfo == null ? null : Config.designInfo.getCssPath())
                 .openEditableImageSelectionDialog(new ArrayList<>(images), new ArrayList<>(addableImages),
                         imageClickListener, windowCloseListener);
     }
