@@ -1,6 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
-import com.katyshevtseva.fx.dialog.controller.ImageSelectDialogController.ImageContainer;
+import com.katyshevtseva.fx.ImageContainer;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;

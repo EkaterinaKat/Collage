@@ -1,8 +1,8 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.ImageSizeUtil;
 import com.katyshevtseva.fx.dialog.StandardDialogBuilder;
-import com.katyshevtseva.fx.dialog.controller.ImageSelectDialogController.ImageContainer;
 import com.katyshevtseva.general.OneArgKnob;
 
 import java.util.ArrayList;
