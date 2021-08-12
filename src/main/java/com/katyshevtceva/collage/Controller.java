@@ -10,7 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Pane;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class Controller implements FxController {
     private static final boolean DEFAULT_EDITING_MODE = true;
@@ -28,31 +30,28 @@ class Controller implements FxController {
                 .width(COLLAGE_WIDTH)
                 .color("#F08080")
                 .editingMode(DEFAULT_EDITING_MODE)
-                .allExistingImages(Arrays.asList("/images/1.jpg", "/images/2.jpg", "/images/3.png", "/images/4.jpg",
-                        "/images/5.png", "/images/6.jpg", "/images/7.png", "/images/8.jpg", "/images/9.jpg",
-                        "/images/10.jpg", "/images/11.jpg", "/images/12.jpg", "/images/13.jpg", "/images/14.png",
-                        "/images/15.png", "/images/16.png", "/images/17.jpg"))
+                .allExistingImages(getAllExistingImages())
                 .build();
         collagePane.getChildren().add(collage.getPane());
 
-        Component component1 = new ComponentBuilder(collage, Arrays.asList("/images/1.jpg", "/images/2.jpg"))
-                .frontImage("/images/1.jpg")
+        Component component1 = new ComponentBuilder(collage, Stream.of("1.jpg", "2.jpg").map(this::getUrlByFileName).collect(Collectors.toList()))
+                .frontImage(getUrlByFileName("1.jpg"))
                 .relativeWidth(0.5)
                 .relativePosition(new Point(0.1, 0.1))
                 .z(2)
                 .build();
         collage.addComponent(component1);
 
-        Component component2 = new ComponentBuilder(collage, Arrays.asList("/images/3.png"))
-                .frontImage("/images/3.png")
+        Component component2 = new ComponentBuilder(collage, Stream.of("3.png").map(this::getUrlByFileName).collect(Collectors.toList()))
+                .frontImage(getUrlByFileName("3.png"))
                 .relativeWidth(0.3)
                 .relativePosition(new Point(0.05, 0.05))
                 .z(3)
                 .build();
         collage.addComponent(component2);
 
-        Component component3 = new ComponentBuilder(collage, Arrays.asList("/images/5.png", "/images/6.jpg"))
-                .frontImage("/images/5.png")
+        Component component3 = new ComponentBuilder(collage, Stream.of("5.png", "6.jpg").map(this::getUrlByFileName).collect(Collectors.toList()))
+                .frontImage(getUrlByFileName("5.png"))
                 .relativeWidth(0.4)
                 .relativePosition(new Point(0, 0))
                 .z(1)
@@ -61,5 +60,15 @@ class Controller implements FxController {
 
         editModeCheckBox.setSelected(DEFAULT_EDITING_MODE);
         editModeCheckBox.setOnAction(event -> collage.setEditingMode(editModeCheckBox.isSelected()));
+    }
+
+    private List<String> getAllExistingImages() {
+        return Stream.of("1.jpg", "2.jpg", "3.png", "4.jpg", "5.png", "6.jpg", "7.png", "8.jpg", "9.jpg",
+                "10.jpg", "11.jpg", "12.jpg", "13.jpg", "14.png", "15.png", "16.png", "17.jpg")
+                .map(this::getUrlByFileName).collect(Collectors.toList());
+    }
+
+    private String getUrlByFileName(String fileName) {
+        return "D:\\Code\\Collage\\src\\main\\resources\\images\\" + fileName;
     }
 }

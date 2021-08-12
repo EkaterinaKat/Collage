@@ -1,6 +1,7 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.ImageContainer;
+import com.katyshevtseva.fx.ImageUtils;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
@@ -8,6 +9,10 @@ import lombok.Getter;
 
 import java.util.Objects;
 
+/**
+ * Must contain image absolute path
+ * Absolute path must look like this "D:\\Some_files\\wardrobe\\masik.png"
+ */
 class Image implements ImageContainer {
     @Getter
     private ImageView imageView;
@@ -15,7 +20,7 @@ class Image implements ImageContainer {
     private String url;
 
     Image(String url) {
-        this.imageView = new ImageView(new javafx.scene.image.Image(url));
+        this.imageView = ImageUtils.getImageViewByAbsolutePath(url);
         this.url = url;
     }
 

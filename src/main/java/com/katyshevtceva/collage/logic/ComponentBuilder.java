@@ -19,6 +19,8 @@ public class ComponentBuilder {
     /**
      * @param imageUrls должен содержать url фронтального изображения, если таковое имеется.
      *                  Каждый url должен уже содержаться в collage в allExistingImages.
+     *                  Must contain image absolute path
+     *                  Absolute path must look like this "D:\\Some_files\\wardrobe\\masik.png"
      */
     public ComponentBuilder(Collage collage, List<String> imageUrls) {
         if (imageUrls.size() == 0)
@@ -28,6 +30,10 @@ public class ComponentBuilder {
         this.imageUrls = imageUrls;
     }
 
+    /**
+     * @param url Must contain image absolute path
+     *            Absolute path must look like this "D:\\Some_files\\wardrobe\\masik.png"
+     */
     public ComponentBuilder frontImage(String url) {
         if (!imageUrls.contains(url))
             throw new RuntimeException();
