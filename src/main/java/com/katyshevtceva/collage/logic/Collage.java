@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Collage {
+    @Getter
     private List<Component> components = new ArrayList<>();
     @Getter
     private List<Image> allExistingImages;
@@ -47,10 +48,6 @@ public class Collage {
 
     double getHeight() {
         return pane.getMinHeight();
-    }
-
-    List<Component> getComponents() {
-        return components;
     }
 
     void moveComponentToFirstPlan(Component component) {

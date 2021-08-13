@@ -9,19 +9,15 @@ import lombok.Getter;
 
 import java.util.Objects;
 
-/**
- * Must contain image absolute path
- * Absolute path must look like this "D:\\Some_files\\wardrobe\\masik.png"
- */
 class Image implements ImageContainer {
     @Getter
     private ImageView imageView;
     @Getter
-    private String url;
+    private ImageContainer imageContainer;
 
-    Image(String url) {
-        this.imageView = ImageUtils.getImageViewByAbsolutePath(url);
-        this.url = url;
+    Image(ImageContainer imageContainer) {
+        this.imageView = ImageUtils.getImageViewByAbsolutePath(imageContainer.getUrl());
+        this.imageContainer = imageContainer;
     }
 
     double getX() {
@@ -65,11 +61,16 @@ class Image implements ImageContainer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
-        return url.equals(image.url);
+        return imageContainer.getUrl().equals(image.getImageContainer().getUrl());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(url);
+        return Objects.hash(imageContainer.getUrl());
+    }
+
+    @Override
+    public String getUrl() {
+        return imageContainer.getUrl();
     }
 }

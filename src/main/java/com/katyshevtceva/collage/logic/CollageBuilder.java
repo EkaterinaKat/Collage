@@ -1,5 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.Styler;
 import javafx.scene.layout.Pane;
 
@@ -34,12 +35,8 @@ public class CollageBuilder {
         return this;
     }
 
-    /**
-     * @param allExistingImagesUrls Must contain image absolute path
-     *                              Absolute path must look like this "D:\\Some_files\\wardrobe\\masik.png"
-     */
-    public CollageBuilder allExistingImages(List<String> allExistingImagesUrls) {
-        this.allExistingImages = allExistingImagesUrls.stream().map(Image::new).collect(Collectors.toList());
+    public CollageBuilder allExistingImages(List<ImageContainer> allExistingImagesContainers) {
+        this.allExistingImages = allExistingImagesContainers.stream().map(Image::new).collect(Collectors.toList());
         return this;
     }
 

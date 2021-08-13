@@ -1,44 +1,41 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.Point;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.katyshevtceva.collage.logic.Constants.DEFAULT_INIT_COMPONENT_RELATIVE_WIDTH;
 import static com.katyshevtseva.fx.ImageSizeUtil.getHeightByWidth;
 
 public class ComponentBuilder {
     private Collage collage;
-    private String frontImageUrl;
-    private List<String> imageUrls;
+    private ImageContainer frontImageContainer;
+    private List<ImageContainer> imageContainers;
     private Point relativePosition;
     private double relativeWidth = DEFAULT_INIT_COMPONENT_RELATIVE_WIDTH;
     private int z = 1;
 
     /**
-     * @param imageUrls должен содержать url фронтального изображения, если таковое имеется.
-     *                  Каждый url должен уже содержаться в collage в allExistingImages.
-     *                  Must contain image absolute path
-     *                  Absolute path must look like this "D:\\Some_files\\wardrobe\\masik.png"
+     * @param imageContainers должен содержать url фронтального изображения, если таковое имеется.
+     *                        Каждый url должен уже содержаться в collage в allExistingImages.
      */
-    public ComponentBuilder(Collage collage, List<String> imageUrls) {
-        if (imageUrls.size() == 0)
+    public ComponentBuilder(Collage collage, List<ImageContainer> imageContainers) {
+        if (imageContainers.size() == 0)
             throw new RuntimeException();
 
         this.collage = collage;
-        this.imageUrls = imageUrls;
+        this.imageContainers = imageContainers;
     }
 
-    /**
-     * @param url Must contain image absolute path
-     *            Absolute path must look like this "D:\\Some_files\\wardrobe\\masik.png"
-     */
-    public ComponentBuilder frontImage(String url) {
-        if (!imageUrls.contains(url))
+    public ComponentBuilder frontImage(ImageContainer imageContainer) {
+        if (!imageContainers.stream().map(imageContainer1 -> imageContainer.getUrl()).collect(Collectors.toList())
+                .contains(imageContainer.getUrl()))
             throw new RuntimeException();
 
-        this.frontImageUrl = url;
+        this.frontImageContainer = imageContainer;
         return this;
     }
 
@@ -69,10 +66,10 @@ public class ComponentBuilder {
     public Component build() {
         List<Image> images = new ArrayList<>();
         Image frontImage = null;
-        for (String url : imageUrls) {
-            Image image = new Image(url);
+        for (ImageContainer imageContainer : imageContainers) {
+            Image image = new Image(imageContainer);
             images.add(image);
-            if (url.equals(frontImageUrl))
+            if (imageContainer.getUrl().equals(frontImageContainer.getUrl()))
                 frontImage = image;
             if (!collage.getAllExistingImages().contains(image))
                 throw new RuntimeException();
