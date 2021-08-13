@@ -1,9 +1,11 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.dialog.StandardDialogBuilder;
 import javafx.scene.layout.Pane;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +28,13 @@ public class Collage {
 
     public Pane getPane() {
         return pane;
+    }
+
+    public void createComponent() {
+        new StandardDialogBuilder()
+                .openImageSelectionDialog(new ArrayList<>(getFreeImages()), imageContainer -> {
+                    addComponent(new ComponentBuilder(this, Collections.singletonList(((Image) imageContainer).getImageContainer())).build());
+                });
     }
 
     public void addComponent(Component component) {

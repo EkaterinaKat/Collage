@@ -69,7 +69,7 @@ public class ComponentBuilder {
         for (ImageContainer imageContainer : imageContainers) {
             Image image = new Image(imageContainer);
             images.add(image);
-            if (imageContainer.getUrl().equals(frontImageContainer.getUrl()))
+            if (frontImageContainer != null && imageContainer.getUrl().equals(frontImageContainer.getUrl()))
                 frontImage = image;
             if (!collage.getAllExistingImages().contains(image))
                 throw new RuntimeException();

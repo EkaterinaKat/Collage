@@ -8,6 +8,7 @@ import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.Point;
 import com.katyshevtseva.fx.WindowBuilder.FxController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Pane;
 
@@ -23,6 +24,8 @@ class Controller implements FxController {
     private Pane collagePane;
     @FXML
     private CheckBox editModeCheckBox;
+    @FXML
+    private Button componentAddButton;
 
     @FXML
     private void initialize() {
@@ -61,6 +64,7 @@ class Controller implements FxController {
 
         editModeCheckBox.setSelected(DEFAULT_EDITING_MODE);
         editModeCheckBox.setOnAction(event -> collage.setEditingMode(editModeCheckBox.isSelected()));
+        componentAddButton.setOnAction(event -> collage.createComponent());
     }
 
     private List<ImageContainer> getAllExistingImageContainers() {
