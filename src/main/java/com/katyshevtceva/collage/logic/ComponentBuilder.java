@@ -17,6 +17,7 @@ public class ComponentBuilder {
     private Point relativePosition;
     private double relativeWidth = DEFAULT_INIT_COMPONENT_RELATIVE_WIDTH;
     private int z = 1;
+    private Long id;
 
     /**
      * @param imageContainers должен содержать url фронтального изображения, если таковое имеется.
@@ -63,6 +64,11 @@ public class ComponentBuilder {
         return this;
     }
 
+    public ComponentBuilder id(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public Component build() {
         List<Image> images = new ArrayList<>();
         Image frontImage = null;
@@ -97,7 +103,7 @@ public class ComponentBuilder {
         frontImage.setX(initPosition.getX());
         frontImage.setY(initPosition.getY());
 
-        return new Component(collage, frontImage, images, z);
+        return new Component(collage, frontImage, images, z, id);
     }
 
 }

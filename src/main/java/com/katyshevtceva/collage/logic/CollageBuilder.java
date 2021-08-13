@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class CollageBuilder {
     private int width = 500;
     private int height = 500;
-    private String color;
+    private String color = "#FFFFFF";
     private boolean editingMode = true;
     private List<Image> allExistingImages = new ArrayList<>();
 
@@ -26,7 +26,8 @@ public class CollageBuilder {
     }
 
     public CollageBuilder color(String color) {
-        this.color = color;
+        if (color != null)
+            this.color = color;
         return this;
     }
 
@@ -41,7 +42,7 @@ public class CollageBuilder {
     }
 
     public Collage build() {
-        return new Collage(createPane(), editingMode, allExistingImages);
+        return new Collage(createPane(), editingMode, allExistingImages, color);
     }
 
     private Pane createPane() {
@@ -50,9 +51,7 @@ public class CollageBuilder {
         pane.setMaxWidth(width);
         pane.setMinHeight(height);
         pane.setMaxHeight(height);
-        if (color != null) {
-            pane.setStyle(Styler.getColorfullStyle(Styler.ThingToColor.BACKGROUND, color));
-        }
+        pane.setStyle(Styler.getColorfullStyle(Styler.ThingToColor.BACKGROUND, color));
         return pane;
     }
 }

@@ -1,14 +1,17 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.Point;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.katyshevtceva.collage.logic.Constants.MIN_COMPONENT_RELATIVE_WIDTH;
 import static com.katyshevtceva.collage.logic.Utils.setSizeByHeight;
@@ -17,27 +20,50 @@ import static com.katyshevtseva.fx.ImageSizeUtil.getHeightByWidth;
 import static com.katyshevtseva.fx.ImageSizeUtil.getWidthByHeight;
 
 public class Component {
-    @Getter
+    @Getter(AccessLevel.PACKAGE)
     private Collage collage;
-    @Getter
+    @Getter(AccessLevel.PACKAGE)
     private Image frontImage;
-    @Getter
+    @Getter(AccessLevel.PACKAGE)
     private List<Image> images;
     @Getter
-    @Setter
+    @Setter(AccessLevel.PACKAGE)
     private int z;
     private SizeAdjuster sizeAdjuster;
     private ImageSwitcher imageSwitcher;
+    @Getter
+    private Long id;
 
-    Component(Collage collage, Image frontImage, List<Image> images, int z) {
+    Component(Collage collage, Image frontImage, List<Image> images, int z, Long id) {
         this.collage = collage;
         this.frontImage = frontImage;
         this.images = images;
         this.z = z;
+        this.id = id;
         sizeAdjuster = new SizeAdjuster(collage, this);
         imageSwitcher = new ImageSwitcher(collage, this);
         correctImageSizeAndPosIfNeeded();
         setContextMenuOnFrontImage();
+    }
+
+    public double getRelativeX() {
+        return frontImage.getX() / collage.getWidth();
+    }
+
+    public double getRelativeY() {
+        return frontImage.getY() / collage.getHeight();
+    }
+
+    public double getRelativeWidth() {
+        return frontImage.getWidth() / collage.getWidth();
+    }
+
+    public List<ImageContainer> getImageContainers() {
+        return images.stream().map(Image::getImageContainer).collect(Collectors.toList());
+    }
+
+    public ImageContainer getFrontImageContainer() {
+        return frontImage.getImageContainer();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@ package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.dialog.StandardDialogBuilder;
 import javafx.scene.layout.Pane;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -10,16 +11,19 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("WeakerAccess")
 public class Collage {
     @Getter
     private List<Component> components = new ArrayList<>();
-    @Getter
+    @Getter(AccessLevel.PACKAGE)
     private List<Image> allExistingImages;
     private Pane pane;
+    @Getter(AccessLevel.PACKAGE)
+    private boolean editingMode;
     @Getter
-    private boolean editingMode = true;
+    private String color;
 
-    Collage(Pane pane, boolean editingMode, List<Image> allExistingImages) {
+    Collage(Pane pane, boolean editingMode, List<Image> allExistingImages, String color) {
         this.pane = pane;
         this.editingMode = editingMode;
         this.allExistingImages = allExistingImages;
@@ -32,9 +36,8 @@ public class Collage {
 
     public void createComponent() {
         new StandardDialogBuilder()
-                .openImageSelectionDialog(new ArrayList<>(getFreeImages()), imageContainer -> {
-                    addComponent(new ComponentBuilder(this, Collections.singletonList(((Image) imageContainer).getImageContainer())).build());
-                });
+                .openImageSelectionDialog(new ArrayList<>(getFreeImages()), imageContainer -> addComponent(
+                        new ComponentBuilder(this, Collections.singletonList(((Image) imageContainer).getImageContainer())).build()));
     }
 
     public void addComponent(Component component) {
