@@ -1,7 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.ImageContainer;
-import com.katyshevtseva.fx.ImageUtils;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
@@ -11,12 +10,12 @@ import java.util.Objects;
 
 class Image implements ImageContainer {
     @Getter
-    private ImageView imageView;
+    private final ImageView imageView;
     @Getter
-    private ImageContainer imageContainer;
+    private final ImageContainer imageContainer;
 
     Image(ImageContainer imageContainer) {
-        this.imageView = ImageUtils.getImageViewByAbsolutePath(imageContainer.getUrl());
+        this.imageView = new ImageView(imageContainer.getImage());
         this.imageContainer = imageContainer;
     }
 
@@ -61,16 +60,21 @@ class Image implements ImageContainer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
-        return imageContainer.getUrl().equals(image.getImageContainer().getUrl());
+        return imageContainer.getPath().equals(image.getImageContainer().getPath());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(imageContainer.getUrl());
+        return Objects.hash(imageContainer.getPath());
     }
 
     @Override
-    public String getUrl() {
-        return imageContainer.getUrl();
+    public javafx.scene.image.Image getImage() {
+        return imageContainer.getImage();
+    }
+
+    @Override
+    public String getPath() {
+        return imageContainer.getPath();
     }
 }

@@ -32,8 +32,8 @@ public class ComponentBuilder {
     }
 
     public ComponentBuilder frontImage(ImageContainer imageContainer) {
-        if (!imageContainers.stream().map(imageContainer1 -> imageContainer.getUrl()).collect(Collectors.toList())
-                .contains(imageContainer.getUrl()))
+        if (!imageContainers.stream().map(imageContainer1 -> imageContainer.getPath()).collect(Collectors.toList())
+                .contains(imageContainer.getPath()))
             throw new RuntimeException();
 
         this.frontImageContainer = imageContainer;
@@ -75,7 +75,7 @@ public class ComponentBuilder {
         for (ImageContainer imageContainer : imageContainers) {
             Image image = new Image(imageContainer);
             images.add(image);
-            if (frontImageContainer != null && imageContainer.getUrl().equals(frontImageContainer.getUrl()))
+            if (frontImageContainer != null && imageContainer.getPath().equals(frontImageContainer.getPath()))
                 frontImage = image;
             if (!collage.getAllExistingImages().contains(image))
                 throw new RuntimeException();
@@ -105,5 +105,4 @@ public class ComponentBuilder {
 
         return new Component(collage, frontImage, images, z, id);
     }
-
 }

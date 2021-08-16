@@ -5,11 +5,13 @@ import com.katyshevtceva.collage.logic.CollageBuilder;
 import com.katyshevtceva.collage.logic.Component;
 import com.katyshevtceva.collage.logic.ComponentBuilder;
 import com.katyshevtseva.fx.ImageContainer;
+import com.katyshevtseva.fx.ImageUtils;
 import com.katyshevtseva.fx.Point;
 import com.katyshevtseva.fx.WindowBuilder.FxController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 import java.util.List;
@@ -68,11 +70,21 @@ class Controller implements FxController {
 
     private List<ImageContainer> getAllExistingImageContainers() {
         return Stream.of("1.jpg", "2.jpg", "3.png", "4.jpg", "5.png", "6.jpg", "7.png", "8.jpg", "9.jpg",
-                "10.jpg", "11.jpg", "12.jpg", "13.jpg", "14.png", "15.png", "16.png", "17.jpg")
+                        "10.jpg", "11.jpg", "12.jpg", "13.jpg", "14.png", "15.png", "16.png", "17.jpg")
                 .map(this::getImageContainersByFileName).collect(Collectors.toList());
     }
 
     private ImageContainer getImageContainersByFileName(String fileName) {
-        return () -> "D:\\Code\\Collage\\src\\main\\resources\\images\\" + fileName;
+        return new ImageContainer() {
+            @Override
+            public Image getImage() {
+                return ImageUtils.getImageByAbsolutePath("D:\\Code\\Collage\\src\\main\\resources\\images\\" + fileName);
+            }
+
+            @Override
+            public String getPath() {
+                return "D:\\Code\\Collage\\src\\main\\resources\\images\\" + fileName;
+            }
+        };
     }
 }
