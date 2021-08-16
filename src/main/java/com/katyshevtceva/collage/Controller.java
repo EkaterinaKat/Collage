@@ -32,7 +32,6 @@ class Controller implements FxController {
         Collage collage = new CollageBuilder()
                 .height(COLLAGE_HEIGHT)
                 .width(COLLAGE_WIDTH)
-                .color("#F08080")
                 .editingMode(DEFAULT_EDITING_MODE)
                 .allExistingImages(getAllExistingImageContainers())
                 .build();

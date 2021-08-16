@@ -1,7 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.ImageContainer;
-import com.katyshevtseva.fx.Styler;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.stream.Collectors;
 public class CollageBuilder {
     private int width = 500;
     private int height = 500;
-    private String color = "#FFFFFF";
     private boolean editingMode = true;
     private List<Image> allExistingImages = new ArrayList<>();
 
@@ -22,12 +20,6 @@ public class CollageBuilder {
 
     public CollageBuilder height(int height) {
         this.height = height;
-        return this;
-    }
-
-    public CollageBuilder color(String color) {
-        if (color != null)
-            this.color = color;
         return this;
     }
 
@@ -42,7 +34,7 @@ public class CollageBuilder {
     }
 
     public Collage build() {
-        return new Collage(createPane(), editingMode, allExistingImages, color);
+        return new Collage(createPane(), editingMode, allExistingImages);
     }
 
     private Pane createPane() {
@@ -51,7 +43,6 @@ public class CollageBuilder {
         pane.setMaxWidth(width);
         pane.setMinHeight(height);
         pane.setMaxHeight(height);
-        pane.setStyle(Styler.getColorfullStyle(Styler.ThingToColor.BACKGROUND, color));
         return pane;
     }
 }

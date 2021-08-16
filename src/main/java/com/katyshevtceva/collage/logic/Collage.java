@@ -20,10 +20,8 @@ public class Collage {
     private Pane pane;
     @Getter(AccessLevel.PACKAGE)
     private boolean editingMode;
-    @Getter
-    private String color;
 
-    Collage(Pane pane, boolean editingMode, List<Image> allExistingImages, String color) {
+    Collage(Pane pane, boolean editingMode, List<Image> allExistingImages) {
         this.pane = pane;
         this.editingMode = editingMode;
         this.allExistingImages = allExistingImages;
