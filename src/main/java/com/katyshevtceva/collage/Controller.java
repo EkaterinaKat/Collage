@@ -25,8 +25,6 @@ class Controller implements FxController {
     @FXML
     private Pane collagePane;
     @FXML
-    private CheckBox editModeCheckBox;
-    @FXML
     private Button componentAddButton;
 
     @FXML
@@ -63,8 +61,6 @@ class Controller implements FxController {
                 .build();
         collage.addComponent(component3);
 
-        editModeCheckBox.setSelected(DEFAULT_EDITING_MODE);
-        editModeCheckBox.setOnAction(event -> collage.setEditingMode(editModeCheckBox.isSelected()));
         componentAddButton.setOnAction(event -> collage.createComponent());
     }
 

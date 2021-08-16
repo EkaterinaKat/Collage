@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 @SuppressWarnings("WeakerAccess")
 public class Collage {
     @Getter
-    private List<Component> components = new ArrayList<>();
+    private final List<Component> components = new ArrayList<>();
     @Getter(AccessLevel.PACKAGE)
-    private List<Image> allExistingImages;
-    private Pane pane;
+    private final List<Image> allExistingImages;
+    private final Pane pane;
     @Getter(AccessLevel.PACKAGE)
-    private boolean editingMode;
+    private final boolean editingMode;
 
     Collage(Pane pane, boolean editingMode, List<Image> allExistingImages) {
         this.pane = pane;
@@ -42,11 +42,6 @@ public class Collage {
         if (components.stream().anyMatch(component1 -> component1.getZ() == component.getZ()))
             component.setZ(getImagesMaxZ() + 1);
         components.add(component);
-        refillPaneWithComponents();
-    }
-
-    public void setEditingMode(boolean editingMode) {
-        this.editingMode = editingMode;
         refillPaneWithComponents();
     }
 
