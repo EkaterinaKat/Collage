@@ -19,9 +19,6 @@ class ModificationEngine {
 
     private void tuneComponentModificationMechanism() {
         collagePane.setOnMousePressed(event -> {
-            if (!collage.isEditingMode())
-                return;
-
             List<Component> components = collage.getComponents().stream()
                     .sorted(Comparator.comparing(Component::getZ).reversed())
                     .collect(Collectors.toList());
@@ -36,9 +33,6 @@ class ModificationEngine {
         });
 
         collagePane.setOnMouseDragged(event -> {
-            if (!collage.isEditingMode())
-                return;
-
             if (currentModification != null) {
                 currentModification.reportDragEvent(event);
             }

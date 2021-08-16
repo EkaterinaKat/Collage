@@ -10,7 +10,6 @@ import com.katyshevtseva.fx.Point;
 import com.katyshevtseva.fx.WindowBuilder.FxController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class Controller implements FxController {
-    private static final boolean DEFAULT_EDITING_MODE = true;
     static final int COLLAGE_WIDTH = 1000;
     static final int COLLAGE_HEIGHT = 780;
     @FXML
@@ -32,7 +30,6 @@ class Controller implements FxController {
         Collage collage = new CollageBuilder()
                 .height(COLLAGE_HEIGHT)
                 .width(COLLAGE_WIDTH)
-                .editingMode(DEFAULT_EDITING_MODE)
                 .allExistingImages(getAllExistingImageContainers())
                 .build();
         collagePane.getChildren().add(collage.getPane());

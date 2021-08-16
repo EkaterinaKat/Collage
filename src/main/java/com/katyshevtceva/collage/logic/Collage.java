@@ -18,12 +18,9 @@ public class Collage {
     @Getter(AccessLevel.PACKAGE)
     private final List<Image> allExistingImages;
     private final Pane pane;
-    @Getter(AccessLevel.PACKAGE)
-    private final boolean editingMode;
 
-    Collage(Pane pane, boolean editingMode, List<Image> allExistingImages) {
+    Collage(Pane pane, List<Image> allExistingImages) {
         this.pane = pane;
-        this.editingMode = editingMode;
         this.allExistingImages = allExistingImages;
         new ModificationEngine(this);
     }
@@ -70,10 +67,7 @@ public class Collage {
         pane.getChildren().clear();
         components.sort(Comparator.comparing(Component::getZ));
         for (Component component : components) {
-            if (editingMode)
-                pane.getChildren().addAll(component.getFrontImageWithButtons());
-            else
-                pane.getChildren().add(component.getFrontImage().getImageView());
+            pane.getChildren().addAll(component.getFrontImageWithButtons());
         }
     }
 

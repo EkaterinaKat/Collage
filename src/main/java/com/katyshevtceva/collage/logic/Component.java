@@ -172,8 +172,7 @@ public class Component {
         contextMenu.getItems().add(addImage);
 
         frontImage.setOnContextMenuRequested(e -> {
-            if (collage.isEditingMode())
-                contextMenu.show(frontImage.getImageView(), e.getScreenX(), e.getScreenY());
+            contextMenu.show(frontImage.getImageView(), e.getScreenX(), e.getScreenY());
         });
     }
 

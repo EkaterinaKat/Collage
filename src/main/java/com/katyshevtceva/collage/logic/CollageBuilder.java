@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public class CollageBuilder {
     private int width = 500;
     private int height = 500;
-    private boolean editingMode = true;
     private List<Image> allExistingImages = new ArrayList<>();
 
     public CollageBuilder width(int width) {
@@ -23,18 +22,13 @@ public class CollageBuilder {
         return this;
     }
 
-    public CollageBuilder editingMode(boolean editingMode) {
-        this.editingMode = editingMode;
-        return this;
-    }
-
     public CollageBuilder allExistingImages(List<ImageContainer> allExistingImagesContainers) {
         this.allExistingImages = allExistingImagesContainers.stream().map(Image::new).collect(Collectors.toList());
         return this;
     }
 
     public Collage build() {
-        return new Collage(createPane(), editingMode, allExistingImages);
+        return new Collage(createPane(), allExistingImages);
     }
 
     private Pane createPane() {
