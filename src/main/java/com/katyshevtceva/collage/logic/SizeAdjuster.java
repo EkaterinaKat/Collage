@@ -1,17 +1,16 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.Point;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 
 import static com.katyshevtceva.collage.logic.Constants.BUTTON_SIZE_TO_COLLAGE_WIDTH_RATIO;
 
 class SizeAdjuster {
-    private Component component;
+    private final Component component;
     @Getter
     private ImageView imageView;
-    private double buttonSize;
+    private final double buttonSize;
 
     SizeAdjuster(Collage collage, Component component) {
         this.component = component;
@@ -21,7 +20,7 @@ class SizeAdjuster {
     }
 
     private void initializeImageView() {
-        imageView = new ImageView(new Image("/icons/resizing_arrow.png"));
+        imageView = new ImageView(ButtonImageFactory.getInstance().getSizeAdjusterImage());
         imageView.setFitWidth(buttonSize);
         imageView.setFitHeight(buttonSize);
     }
