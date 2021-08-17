@@ -1,5 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.BackgroundLoadedImageAdjuster;
 import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.Point;
 
@@ -11,9 +12,9 @@ import static com.katyshevtceva.collage.logic.Constants.DEFAULT_INIT_COMPONENT_R
 import static com.katyshevtseva.fx.ImageSizeUtil.getHeightByWidth;
 
 public class ComponentBuilder {
-    private Collage collage;
+    private final Collage collage;
     private ImageContainer frontImageContainer;
-    private List<ImageContainer> imageContainers;
+    private final List<ImageContainer> imageContainers;
     private Point relativePosition;
     private double relativeWidth = DEFAULT_INIT_COMPONENT_RELATIVE_WIDTH;
     private int z = 1;
@@ -83,26 +84,36 @@ public class ComponentBuilder {
         if (frontImage == null)
             frontImage = images.get(0);
 
-        double initWidth = relativeWidth * collage.getWidth();
-        double initHeight = getHeightByWidth(frontImage.getImageView(), initWidth);
+        Component component = new Component(collage, frontImage, images, z, id);
 
-        Point initPosition;
-        if (relativePosition != null) {
-            initPosition = new Point(
-                    relativePosition.getX() * collage.getWidth(),
-                    relativePosition.getY() * collage.getHeight());
-        } else {
-            initPosition = new Point(
-                    collage.getWidth() / 2.0 - initWidth / 2.0,
-                    collage.getHeight() / 2.0 - initHeight / 2.0
-            );
-        }
+        startImageAdjuster(frontImage, component);
 
-        frontImage.setFitWidth(initWidth);
-        frontImage.setFitHeight(initHeight);
-        frontImage.setX(initPosition.getX());
-        frontImage.setY(initPosition.getY());
+        return component;
+    }
 
-        return new Component(collage, frontImage, images, z, id);
+    private void startImageAdjuster(Image frontImage, Component component) {
+        new BackgroundLoadedImageAdjuster(frontImage.getImageContainer().getImage(), () -> {
+            double initWidth = relativeWidth * collage.getWidth();
+            double initHeight = getHeightByWidth(frontImage.getImageView(), initWidth);
+
+            Point initPosition;
+            if (relativePosition != null) {
+                initPosition = new Point(
+                        relativePosition.getX() * collage.getWidth(),
+                        relativePosition.getY() * collage.getHeight());
+            } else {
+                initPosition = new Point(
+                        collage.getWidth() / 2.0 - initWidth / 2.0,
+                        collage.getHeight() / 2.0 - initHeight / 2.0
+                );
+            }
+
+            frontImage.setFitWidth(initWidth);
+            frontImage.setFitHeight(initHeight);
+            frontImage.setX(initPosition.getX());
+            frontImage.setY(initPosition.getY());
+
+            component.updateButtonsPos();
+        }).start();
     }
 }

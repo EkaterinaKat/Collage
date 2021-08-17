@@ -4,8 +4,8 @@ import com.katyshevtceva.collage.logic.Collage;
 import com.katyshevtceva.collage.logic.CollageBuilder;
 import com.katyshevtceva.collage.logic.Component;
 import com.katyshevtceva.collage.logic.ComponentBuilder;
+import com.katyshevtseva.fx.FxImageCreationUtil;
 import com.katyshevtseva.fx.ImageContainer;
-import com.katyshevtseva.fx.ImageUtils;
 import com.katyshevtseva.fx.Point;
 import com.katyshevtseva.fx.WindowBuilder.FxController;
 import javafx.fxml.FXML;
@@ -71,7 +71,7 @@ class Controller implements FxController {
         return new ImageContainer() {
             @Override
             public Image getImage() {
-                return ImageUtils.getImageByAbsolutePath("D:\\Code\\Collage\\src\\main\\resources\\images\\" + fileName);
+                return FxImageCreationUtil.getImageByAbsolutePath("D:\\Code\\Collage\\src\\main\\resources\\images\\" + fileName);
             }
 
             @Override

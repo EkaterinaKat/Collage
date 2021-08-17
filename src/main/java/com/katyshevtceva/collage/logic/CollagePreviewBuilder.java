@@ -1,5 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.BackgroundLoadedImageAdjuster;
 import com.katyshevtseva.fx.Size;
 import javafx.scene.layout.Pane;
 
@@ -28,15 +29,17 @@ public class CollagePreviewBuilder {
 
     private static void tuneComponentsImages(List<StaticComponent> components, Size collageSize) {
         for (StaticComponent component : components) {
-            Image image = component.getImage();
+            new BackgroundLoadedImageAdjuster(component.getImage().getImageContainer().getImage(), () -> {
+                Image image = component.getImage();
 
-            double imageWidth = component.getRelativeWidth() * collageSize.getWidth();
-            double imageHeight = getHeightByWidth(image.getImageView(), imageWidth);
+                double imageWidth = component.getRelativeWidth() * collageSize.getWidth();
+                double imageHeight = getHeightByWidth(image.getImageView(), imageWidth);
 
-            image.setFitWidth(imageWidth);
-            image.setFitHeight(imageHeight);
-            image.setX(component.getRelativePosition().getX() * collageSize.getWidth());
-            image.setY(component.getRelativePosition().getY() * collageSize.getHeight());
+                image.setFitWidth(imageWidth);
+                image.setFitHeight(imageHeight);
+                image.setX(component.getRelativePosition().getX() * collageSize.getWidth());
+                image.setY(component.getRelativePosition().getY() * collageSize.getHeight());
+            }).start();
         }
     }
 

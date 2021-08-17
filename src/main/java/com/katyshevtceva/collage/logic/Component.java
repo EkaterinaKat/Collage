@@ -68,6 +68,11 @@ public class Component {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+    void updateButtonsPos() {
+        sizeAdjuster.setPos();
+        imageSwitcher.setPos();
+    }
+
     boolean imageContainsPoint(Point point) {
         return ((point.getX() > frontImage.getX()) && (point.getX() < (frontImage.getX() + frontImage.getWidth())))
                 && ((point.getY() > frontImage.getY()) && (point.getY() < (frontImage.getY() + frontImage.getHeight())));
