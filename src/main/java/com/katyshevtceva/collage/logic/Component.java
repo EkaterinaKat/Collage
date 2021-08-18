@@ -21,7 +21,7 @@ import static com.katyshevtseva.fx.ImageSizeUtil.getWidthByHeight;
 
 public class Component {
     @Getter(AccessLevel.PACKAGE)
-    private Collage collage;
+    private final Collage collage;
     @Getter(AccessLevel.PACKAGE)
     private Image frontImage;
     @Getter(AccessLevel.PACKAGE)
@@ -29,17 +29,14 @@ public class Component {
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private int z;
-    private SizeAdjuster sizeAdjuster;
-    private ImageSwitcher imageSwitcher;
-    @Getter
-    private Long id;
+    private final SizeAdjuster sizeAdjuster;
+    private final ImageSwitcher imageSwitcher;
 
-    Component(Collage collage, Image frontImage, List<Image> images, int z, Long id) {
+    Component(Collage collage, Image frontImage, List<Image> images, int z) {
         this.collage = collage;
         this.frontImage = frontImage;
         this.images = images;
         this.z = z;
-        this.id = id;
         sizeAdjuster = new SizeAdjuster(collage, this);
         imageSwitcher = new ImageSwitcher(collage, this);
         correctImageSizeAndPosIfNeeded();
