@@ -7,8 +7,6 @@ import javafx.scene.layout.Pane;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.katyshevtseva.fx.ImageSizeUtil.getHeightByWidth;
-
 public class CollagePreviewBuilder {
 
     public static Pane buildPreview(Size size, List<StaticComponent> components) {
@@ -30,15 +28,7 @@ public class CollagePreviewBuilder {
     private static void tuneComponentsImages(List<StaticComponent> components, Size collageSize) {
         for (StaticComponent component : components) {
             new BackgroundLoadedImageAdjuster(component.getImage().getImageContainer().getImage(), () -> {
-                Image image = component.getImage();
-
-                double imageWidth = component.getRelativeWidth() * collageSize.getWidth();
-                double imageHeight = getHeightByWidth(image.getImageView(), imageWidth);
-
-                image.setFitWidth(imageWidth);
-                image.setFitHeight(imageHeight);
-                image.setX(component.getRelativePosition().getX() * collageSize.getWidth());
-                image.setY(component.getRelativePosition().getY() * collageSize.getHeight());
+                component.tuneSizeAndPos(collageSize);
             }).start();
         }
     }
@@ -46,7 +36,7 @@ public class CollagePreviewBuilder {
     private static void fillPaneWithComponents(Pane pane, List<StaticComponent> components) {
         components.sort(Comparator.comparing(StaticComponent::getZ));
         for (StaticComponent component : components) {
-            pane.getChildren().add(component.getImage().getImageView());
+            pane.getChildren().addAll(component.getImageViews());
         }
     }
 }
