@@ -26,7 +26,7 @@ class ImageSwitcher {
         imageView.setFitWidth(buttonSize);
         imageView.setFitHeight(buttonSize);
         imageView.setOnMouseClicked(event -> Utils.openEditableImageSelectionDialog(
-                component.getImages(), component.getCollage().getFreeImages(),
+                component.getImages(), component.getCollage().getImagesAvailableToAddToExistingOne(component.getFrontImage()),
                 imageContainer -> component.switchImage((com.katyshevtceva.collage.logic.Image) imageContainer),
                 imageContainers -> component.setImages(imageContainers.stream()
                         .map(imageContainer -> (com.katyshevtceva.collage.logic.Image) imageContainer).collect(Collectors.toList()))));

@@ -1,16 +1,22 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.ImageContainer;
+import com.katyshevtseva.general.OneArgOneAnswerKnob;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CollageBuilder {
     private int width = 500;
     private int height = 500;
     private List<Image> allExistingImages = new ArrayList<>();
+    private OneArgOneAnswerKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier;
+
+    public CollageBuilder availableToAddToComponentImagesSupplier(OneArgOneAnswerKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier) {
+        this.availableToAddToComponentImagesSupplier = availableToAddToComponentImagesSupplier;
+        return this;
+    }
 
     public CollageBuilder width(int width) {
         this.width = width;
@@ -22,13 +28,13 @@ public class CollageBuilder {
         return this;
     }
 
-    public CollageBuilder allExistingImages(List<ImageContainer> allExistingImagesContainers) {
-        this.allExistingImages = allExistingImagesContainers.stream().map(Image::new).collect(Collectors.toList());
+    public CollageBuilder allExistingImages(List<Image> allExistingImages) {
+        this.allExistingImages = allExistingImages;
         return this;
     }
 
     public Collage build() {
-        return new Collage(createPane(), allExistingImages);
+        return new Collage(createPane(), allExistingImages, availableToAddToComponentImagesSupplier);
     }
 
     private Pane createPane() {

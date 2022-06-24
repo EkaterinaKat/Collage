@@ -1,6 +1,9 @@
 package com.katyshevtceva.collage.logic;
 
+import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.dialog.StandardDialogBuilder;
+import com.katyshevtseva.general.OneArgKnob;
+import com.katyshevtseva.general.OneArgOneAnswerKnob;
 import javafx.scene.layout.Pane;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,10 +21,12 @@ public class Collage {
     @Getter(AccessLevel.PACKAGE)
     private final List<Image> allExistingImages;
     private final Pane pane;
+    private final OneArgOneAnswerKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier;
 
-    Collage(Pane pane, List<Image> allExistingImages) {
+    Collage(Pane pane, List<Image> allExistingImages, OneArgOneAnswerKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier) {
         this.pane = pane;
         this.allExistingImages = allExistingImages;
+        this.availableToAddToComponentImagesSupplier = availableToAddToComponentImagesSupplier;
         new ModificationEngine(this);
     }
 
@@ -29,10 +34,18 @@ public class Collage {
         return pane;
     }
 
-    public void createComponent() {
-        new StandardDialogBuilder()
-                .openImageSelectionDialog(new ArrayList<>(getFreeImages()), imageContainer -> addComponent(
-                        new ComponentBuilder(this, Collections.singletonList(((Image) imageContainer).getImageContainer())).build()));
+    public void openImageToAddSelectionDialog() {
+        new StandardDialogBuilder().openImageSelectionDialog(new ArrayList<>(getFreeImages()), getComponentAdder());
+    }
+
+    public void openImageToAddSelectionDialog(List<Image> imagesToSelectFrom) {
+        new StandardDialogBuilder().openImageSelectionDialog(new ArrayList<>(imagesToSelectFrom), getComponentAdder());
+    }
+
+    public OneArgKnob<ImageContainer> getComponentAdder() {
+        return imageContainer -> addComponent(
+                new ComponentBuilder(this, Collections.singletonList(((Image) imageContainer).getImageContainer()))
+                        .build());
     }
 
     public void addComponent(Component component) {
@@ -78,6 +91,14 @@ public class Collage {
                     return false;
             return true;
         }).collect(Collectors.toList());
+    }
+
+    List<Image> getImagesAvailableToAddToExistingOne(Image image) {
+        if (availableToAddToComponentImagesSupplier != null) {
+            return availableToAddToComponentImagesSupplier.execute(image.getImageContainer());
+        } else {
+            return getFreeImages();
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////

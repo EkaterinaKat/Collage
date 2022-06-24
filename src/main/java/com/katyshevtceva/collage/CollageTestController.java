@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-class Controller implements FxController {
+class CollageTestController implements FxController {
     static final int COLLAGE_WIDTH = 1000;
     static final int COLLAGE_HEIGHT = 780;
     @FXML
@@ -58,25 +58,27 @@ class Controller implements FxController {
                 .build();
         collage.addComponent(component3);
 
-        componentAddButton.setOnAction(event -> collage.createComponent());
+        componentAddButton.setOnAction(event -> collage.openImageToAddSelectionDialog());
     }
 
-    private List<ImageContainer> getAllExistingImageContainers() {
+    private List<com.katyshevtceva.collage.logic.Image> getAllExistingImageContainers() {
         return Stream.of("1.jpg", "2.jpg", "3.png", "4.jpg", "5.png", "6.jpg", "7.png", "8.jpg", "9.jpg",
                         "10.jpg", "11.jpg", "12.jpg", "13.jpg", "14.png", "15.png", "16.png", "17.jpg")
-                .map(this::getImageContainersByFileName).collect(Collectors.toList());
+                .map(this::getImageContainersByFileName)
+                .map(com.katyshevtceva.collage.logic.Image::new)
+                .collect(Collectors.toList());
     }
 
     private ImageContainer getImageContainersByFileName(String fileName) {
         return new ImageContainer() {
             @Override
             public Image getImage() {
-                return FxImageCreationUtil.getImageByAbsolutePath("D:\\Code\\Collage\\src\\main\\resources\\images\\" + fileName);
+                return FxImageCreationUtil.getImageByAbsolutePath("D:\\onedrive\\Code\\Collage\\src\\main\\resources\\images\\" + fileName);
             }
 
             @Override
             public String getPath() {
-                return "D:\\Code\\Collage\\src\\main\\resources\\images\\" + fileName;
+                return "D:\\onedrive\\Code\\Collage\\src\\main\\resources\\images\\" + fileName;
             }
         };
     }

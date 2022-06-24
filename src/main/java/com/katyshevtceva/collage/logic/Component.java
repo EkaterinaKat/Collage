@@ -167,10 +167,11 @@ public class Component {
         contextMenu.getItems().add(deleteItem);
 
         MenuItem addImage = new MenuItem("Add image");
-        addImage.setOnAction(event -> Utils.openImageSelectionDialog(collage.getFreeImages(), imageContainer -> {
-            images.add((Image) imageContainer);
-            switchImage((Image) imageContainer);
-        }));
+        addImage.setOnAction(event -> Utils.openImageSelectionDialog(collage.getImagesAvailableToAddToExistingOne(frontImage),
+                imageContainer -> {
+                    images.add((Image) imageContainer);
+                    switchImage((Image) imageContainer);
+                }));
         contextMenu.getItems().add(addImage);
 
         frontImage.setOnContextMenuRequested(e -> {

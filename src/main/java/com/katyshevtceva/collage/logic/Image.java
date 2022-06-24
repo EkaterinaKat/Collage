@@ -8,13 +8,13 @@ import lombok.Getter;
 
 import java.util.Objects;
 
-class Image implements ImageContainer {
+public class Image implements ImageContainer {
     @Getter
     private final ImageView imageView;
     @Getter
     private final ImageContainer imageContainer;
 
-    Image(ImageContainer imageContainer) {
+    public Image(ImageContainer imageContainer) {
         this.imageView = new ImageView(imageContainer.getImage());
         this.imageContainer = imageContainer;
     }
