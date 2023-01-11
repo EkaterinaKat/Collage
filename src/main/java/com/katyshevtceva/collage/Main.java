@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         new WindowBuilder("/fxml/main.fxml").
                 setController(new CollageTestController())
-                .setHeight(COLLAGE_HEIGHT + 200).setWidth(COLLAGE_WIDTH + 150)
+                .setSize(COLLAGE_HEIGHT + 200, COLLAGE_WIDTH + 150)
                 .setTitle("Collage")
                 .showWindow();
     }

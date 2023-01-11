@@ -3,7 +3,7 @@ package com.katyshevtceva.collage.logic;
 import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.dialog.StandardDialogBuilder;
 import com.katyshevtseva.general.OneArgKnob;
-import com.katyshevtseva.general.OneArgOneAnswerKnob;
+import com.katyshevtseva.general.OneInOneOutKnob;
 import javafx.scene.layout.Pane;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,9 +21,9 @@ public class Collage {
     @Getter(AccessLevel.PACKAGE)
     private final List<Image> allExistingImages;
     private final Pane pane;
-    private final OneArgOneAnswerKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier;
+    private final OneInOneOutKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier;
 
-    Collage(Pane pane, List<Image> allExistingImages, OneArgOneAnswerKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier) {
+    Collage(Pane pane, List<Image> allExistingImages, OneInOneOutKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier) {
         this.pane = pane;
         this.allExistingImages = allExistingImages;
         this.availableToAddToComponentImagesSupplier = availableToAddToComponentImagesSupplier;
