@@ -1,6 +1,6 @@
 package com.katyshevtceva.collage.logic;
 
-import com.katyshevtseva.fx.ImageContainer;
+import com.katyshevtseva.image.ImageContainer;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
@@ -76,5 +76,10 @@ public class Image implements ImageContainer {
     @Override
     public String getPath() {
         return imageContainer.getPath();
+    }
+
+    @Override
+    public String getFileName() {
+        return imageContainer.getFileName();
     }
 }

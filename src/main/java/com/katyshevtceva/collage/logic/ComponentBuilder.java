@@ -1,8 +1,8 @@
 package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.BackgroundLoadedImageAdjuster;
-import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.Point;
+import com.katyshevtseva.image.ImageContainer;
 
 import java.util.ArrayList;
 import java.util.List;

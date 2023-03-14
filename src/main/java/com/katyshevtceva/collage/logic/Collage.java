@@ -1,9 +1,9 @@
 package com.katyshevtceva.collage.logic;
 
-import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.dialog.StandardDialogBuilder;
 import com.katyshevtseva.general.OneArgKnob;
 import com.katyshevtseva.general.OneInOneOutKnob;
+import com.katyshevtseva.image.ImageContainer;
 import javafx.scene.layout.Pane;
 import lombok.AccessLevel;
 import lombok.Getter;

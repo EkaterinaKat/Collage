@@ -1,7 +1,7 @@
 package com.katyshevtceva.collage.logic;
 
-import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.general.OneInOneOutKnob;
+import com.katyshevtseva.image.ImageContainer;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;

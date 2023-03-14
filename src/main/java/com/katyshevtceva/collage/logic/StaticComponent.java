@@ -1,8 +1,8 @@
 package com.katyshevtceva.collage.logic;
 
-import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.Point;
 import com.katyshevtseva.fx.Size;
+import com.katyshevtseva.image.ImageContainer;
 import javafx.scene.image.ImageView;
 import lombok.AccessLevel;
 import lombok.Getter;

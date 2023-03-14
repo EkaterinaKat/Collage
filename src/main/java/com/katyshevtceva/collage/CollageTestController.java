@@ -5,9 +5,9 @@ import com.katyshevtceva.collage.logic.CollageBuilder;
 import com.katyshevtceva.collage.logic.Component;
 import com.katyshevtceva.collage.logic.ComponentBuilder;
 import com.katyshevtseva.fx.FxImageCreationUtil;
-import com.katyshevtseva.fx.ImageContainer;
 import com.katyshevtseva.fx.Point;
 import com.katyshevtseva.fx.WindowBuilder.FxController;
+import com.katyshevtseva.image.ImageContainer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -79,6 +79,11 @@ class CollageTestController implements FxController {
             @Override
             public String getPath() {
                 return "D:\\onedrive\\Code\\Collage\\src\\main\\resources\\images\\" + fileName;
+            }
+
+            @Override
+            public String getFileName() {
+                return fileName;
             }
         };
     }
