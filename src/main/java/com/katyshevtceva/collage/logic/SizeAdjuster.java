@@ -31,7 +31,7 @@ class SizeAdjuster {
     }
 
     void setPos() {
-        imageView.setX(component.getPos().getX() + component.getFrontImage().getWidth() - imageView.getFitWidth() / 2);
-        imageView.setY(component.getPos().getY() + component.getFrontImage().getHeight() - imageView.getFitHeight() / 2);
+        imageView.setX(component.getPos().getX() + component.getImage().getWidth() - imageView.getFitWidth() / 2);
+        imageView.setY(component.getPos().getY() + component.getImage().getHeight() - imageView.getFitHeight() / 2);
     }
 }

@@ -12,7 +12,6 @@ import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.katyshevtceva.collage.logic.Constants.MIN_COMPONENT_RELATIVE_WIDTH;
 import static com.katyshevtceva.collage.logic.Utils.setSizeByHeight;
@@ -24,138 +23,93 @@ public class Component {
     @Getter(AccessLevel.PACKAGE)
     private final Collage collage;
     @Getter(AccessLevel.PACKAGE)
-    private Image frontImage;
-    @Getter(AccessLevel.PACKAGE)
-    private List<Image> images;
+    private final Image image;
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private int z;
     private final SizeAdjuster sizeAdjuster;
-    private final ImageSwitcher imageSwitcher;
 
-    Component(Collage collage, Image frontImage, List<Image> images, int z) {
+    Component(Collage collage, Image image, int z) {
         this.collage = collage;
-        this.frontImage = frontImage;
-        this.images = images;
+        this.image = image;
         this.z = z;
         sizeAdjuster = new SizeAdjuster(collage, this);
-        imageSwitcher = new ImageSwitcher(collage, this);
         correctImageSizeAndPosIfNeeded();
         setContextMenuOnFrontImage();
     }
 
     public double getRelativeX() {
-        return frontImage.getX() / collage.getWidth();
+        return image.getX() / collage.getWidth();
     }
 
     public double getRelativeY() {
-        return frontImage.getY() / collage.getHeight();
+        return image.getY() / collage.getHeight();
     }
 
     public double getRelativeWidth() {
-        return frontImage.getWidth() / collage.getWidth();
+        return image.getWidth() / collage.getWidth();
     }
 
-    public List<ImageContainer> getImageContainers() {
-        return images.stream().map(Image::getImageContainer).collect(Collectors.toList());
-    }
-
-    public ImageContainer getFrontImageContainer() {
-        return frontImage.getImageContainer();
+    public ImageContainer getImageContainer() {
+        return image.getImageContainer();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     void updateButtonsPos() {
         sizeAdjuster.setPos();
-        imageSwitcher.setPos();
     }
 
     boolean imageContainsPoint(Point point) {
-        return ((point.getX() > frontImage.getX()) && (point.getX() < (frontImage.getX() + frontImage.getWidth())))
-                && ((point.getY() > frontImage.getY()) && (point.getY() < (frontImage.getY() + frontImage.getHeight())));
+        return ((point.getX() > image.getX()) && (point.getX() < (image.getX() + image.getWidth())))
+                && ((point.getY() > image.getY()) && (point.getY() < (image.getY() + image.getHeight())));
     }
 
     boolean sizeAdjusterContainsPoint(Point point) {
         return sizeAdjuster.containsPoint(point);
     }
 
-    boolean imageSwitcherContainsPoint(Point point) {
-        return imageSwitcher.containsPoint(point);
-    }
-
     Point getPos() {
-        return new Point(frontImage.getX(), frontImage.getY());
-    }
-
-    void switchImage(Image image) {
-        image.setX(frontImage.getX());
-        image.setY(frontImage.getY());
-        Utils.setSizeByWidth(image, frontImage.getWidth());
-        frontImage = image;
-        correctImageSizeAndPosIfNeeded();
-        sizeAdjuster.setPos();
-        imageSwitcher.setPos();
-        setContextMenuOnFrontImage();
-        collage.refillPaneWithComponents();
+        return new Point(image.getX(), image.getY());
     }
 
     void relocateIfAllowable(Point newPos) {
         if (newPos.getX() < 0) {
-            frontImage.setX(0);
-        } else if (newPos.getX() > collage.getWidth() - frontImage.getWidth()) {
-            frontImage.setX(collage.getWidth() - frontImage.getWidth());
-        } else {
-            frontImage.setX(newPos.getX());
-        }
+            image.setX(0);
+        } else image.setX(Math.min(newPos.getX(), collage.getWidth() - image.getWidth()));
 
         if (newPos.getY() < 0) {
-            frontImage.setY(0);
-        } else if (newPos.getY() > collage.getHeight() - frontImage.getHeight()) {
-            frontImage.setY(collage.getHeight() - frontImage.getHeight());
-        } else {
-            frontImage.setY(newPos.getY());
-        }
+            image.setY(0);
+        } else image.setY(Math.min(newPos.getY(), collage.getHeight() - image.getHeight()));
+
         sizeAdjuster.setPos();
-        imageSwitcher.setPos();
     }
 
     void resizeIfAllowable(double newWidth) {
-        double newHeight = getHeightByWidth(frontImage.getImageView(), newWidth);
+        double newHeight = getHeightByWidth(image.getImageView(), newWidth);
 
-        if (newWidth > collage.getWidth() - frontImage.getX()) {
-            newWidth = collage.getWidth() - frontImage.getX();
-            newHeight = getHeightByWidth(frontImage.getImageView(), newWidth);
+        if (newWidth > collage.getWidth() - image.getX()) {
+            newWidth = collage.getWidth() - image.getX();
+            newHeight = getHeightByWidth(image.getImageView(), newWidth);
         }
 
-        if (newHeight > collage.getHeight() - frontImage.getY()) {
-            newHeight = collage.getHeight() - frontImage.getY();
-            newWidth = getWidthByHeight(frontImage.getImageView(), newHeight);
+        if (newHeight > collage.getHeight() - image.getY()) {
+            newHeight = collage.getHeight() - image.getY();
+            newWidth = getWidthByHeight(image.getImageView(), newHeight);
         }
 
         if (newWidth < collage.getWidth() * MIN_COMPONENT_RELATIVE_WIDTH) {
             newWidth = collage.getWidth() * MIN_COMPONENT_RELATIVE_WIDTH;
-            newHeight = getHeightByWidth(frontImage.getImageView(), newWidth);
+            newHeight = getHeightByWidth(image.getImageView(), newWidth);
         }
 
-        frontImage.setFitWidth(newWidth);
-        frontImage.setFitHeight(newHeight);
+        image.setFitWidth(newWidth);
+        image.setFitHeight(newHeight);
         sizeAdjuster.setPos();
-        imageSwitcher.setPos();
-
     }
 
-    List<ImageView> getFrontImageWithButtons() {
-        if (images.size() == 1)
-            return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView());
-        return Arrays.asList(frontImage.getImageView(), sizeAdjuster.getImageView(), imageSwitcher.getImageView());
-    }
-
-    void setImages(List<Image> images) {
-        this.images = images;
-        if (!images.contains(frontImage))
-            switchImage(images.get(0));
-        collage.refillPaneWithComponents();
+    List<ImageView> getImageWithButtons() {
+        return Arrays.asList(image.getImageView(), sizeAdjuster.getImageView());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,39 +121,28 @@ public class Component {
         deleteItem.setOnAction(event -> collage.deleteComponent(this));
         contextMenu.getItems().add(deleteItem);
 
-        MenuItem addImage = new MenuItem("Add image");
-        addImage.setOnAction(event -> Utils.openImageSelectionDialog(collage.getImagesAvailableToAddToExistingOne(frontImage),
-                imageContainer -> {
-                    images.add((Image) imageContainer);
-                    switchImage((Image) imageContainer);
-                }));
-        contextMenu.getItems().add(addImage);
-
-        frontImage.setOnContextMenuRequested(e -> {
-            contextMenu.show(frontImage.getImageView(), e.getScreenX(), e.getScreenY());
-        });
+        image.setOnContextMenuRequested(e -> contextMenu.show(image.getImageView(), e.getScreenX(), e.getScreenY()));
     }
 
     private void correctImageSizeAndPosIfNeeded() {
-        if (frontImage.getWidth() > collage.getWidth())
-            setSizeByWidth(frontImage, collage.getWidth());
+        if (image.getWidth() > collage.getWidth())
+            setSizeByWidth(image, collage.getWidth());
 
-        if (frontImage.getHeight() > collage.getHeight())
-            setSizeByHeight(frontImage, collage.getHeight());
+        if (image.getHeight() > collage.getHeight())
+            setSizeByHeight(image, collage.getHeight());
 
-        if (frontImage.getX() < 0)
-            frontImage.setX(0);
+        if (image.getX() < 0)
+            image.setX(0);
 
-        if (frontImage.getX() > collage.getWidth() - frontImage.getWidth())
-            frontImage.setX(collage.getWidth() - frontImage.getWidth());
+        if (image.getX() > collage.getWidth() - image.getWidth())
+            image.setX(collage.getWidth() - image.getWidth());
 
-        if (frontImage.getY() < 0)
-            frontImage.setY(0);
+        if (image.getY() < 0)
+            image.setY(0);
 
-        if (frontImage.getY() > collage.getHeight() - frontImage.getHeight())
-            frontImage.setY(collage.getHeight() - frontImage.getHeight());
+        if (image.getY() > collage.getHeight() - image.getHeight())
+            image.setY(collage.getHeight() - image.getHeight());
 
         sizeAdjuster.setPos();
-        imageSwitcher.setPos();
     }
 }

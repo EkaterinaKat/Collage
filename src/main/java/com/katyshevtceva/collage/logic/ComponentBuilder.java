@@ -4,40 +4,22 @@ import com.katyshevtseva.fx.BackgroundLoadedImageAdjuster;
 import com.katyshevtseva.fx.Point;
 import com.katyshevtseva.image.ImageContainer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static com.katyshevtceva.collage.logic.Constants.DEFAULT_INIT_COMPONENT_RELATIVE_WIDTH;
 import static com.katyshevtseva.fx.ImageSizeUtil.getHeightByWidth;
 
 public class ComponentBuilder {
     private final Collage collage;
-    private ImageContainer frontImageContainer;
-    private final List<ImageContainer> imageContainers;
+    private final ImageContainer imageContainer;
     private Point relativePosition;
     private double relativeWidth = DEFAULT_INIT_COMPONENT_RELATIVE_WIDTH;
     private int z = 1;
 
     /**
-     * @param imageContainers должен содержать url фронтального изображения, если таковое имеется.
-     *                        Каждый url должен уже содержаться в collage в allExistingImages.
+     * @param imageContainer должен содержаться в collage в allExistingImages.
      */
-    public ComponentBuilder(Collage collage, List<ImageContainer> imageContainers) {
-        if (imageContainers.size() == 0)
-            throw new RuntimeException();
-
+    public ComponentBuilder(Collage collage, ImageContainer imageContainer) {
         this.collage = collage;
-        this.imageContainers = imageContainers;
-    }
-
-    public ComponentBuilder frontImage(ImageContainer imageContainer) {
-        if (!imageContainers.stream().map(imageContainer1 -> imageContainer.getPath()).collect(Collectors.toList())
-                .contains(imageContainer.getPath()))
-            throw new RuntimeException();
-
-        this.frontImageContainer = imageContainer;
-        return this;
+        this.imageContainer = imageContainer;
     }
 
     public ComponentBuilder relativePosition(Point relativePosition) {
@@ -65,30 +47,16 @@ public class ComponentBuilder {
     }
 
     public Component build() {
-        List<Image> images = new ArrayList<>();
-        Image frontImage = null;
-        for (ImageContainer imageContainer : imageContainers) {
-            Image image = new Image(imageContainer);
-            images.add(image);
-            if (frontImageContainer != null && imageContainer.getPath().equals(frontImageContainer.getPath()))
-                frontImage = image;
-            if (!collage.getAllExistingImages().contains(image))
-                throw new RuntimeException();
-        }
-        if (frontImage == null)
-            frontImage = images.get(0);
-
-        Component component = new Component(collage, frontImage, images, z);
-
-        startImageAdjuster(frontImage, component);
-
+        Image image = new Image(imageContainer);
+        Component component = new Component(collage, image, z);
+        startImageAdjuster(image, component);
         return component;
     }
 
-    private void startImageAdjuster(Image frontImage, Component component) {
-        new BackgroundLoadedImageAdjuster(frontImage.getImageContainer().getImage(), () -> {
+    private void startImageAdjuster(Image image, Component component) {
+        new BackgroundLoadedImageAdjuster(image.getImageContainer().getImage(), () -> {
             double initWidth = relativeWidth * collage.getWidth();
-            double initHeight = getHeightByWidth(frontImage.getImageView(), initWidth);
+            double initHeight = getHeightByWidth(image.getImageView(), initWidth);
 
             Point initPosition;
             if (relativePosition != null) {
@@ -102,10 +70,10 @@ public class ComponentBuilder {
                 );
             }
 
-            frontImage.setFitWidth(initWidth);
-            frontImage.setFitHeight(initHeight);
-            frontImage.setX(initPosition.getX());
-            frontImage.setY(initPosition.getY());
+            image.setFitWidth(initWidth);
+            image.setFitHeight(initHeight);
+            image.setX(initPosition.getX());
+            image.setY(initPosition.getY());
 
             component.updateButtonsPos();
         }).start();

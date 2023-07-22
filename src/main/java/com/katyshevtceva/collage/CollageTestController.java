@@ -34,24 +34,21 @@ class CollageTestController implements FxController {
                 .build();
         collagePane.getChildren().add(collage.getPane());
 
-        Component component1 = new ComponentBuilder(collage, Stream.of("1.jpg", "2.jpg").map(this::getImageContainersByFileName).collect(Collectors.toList()))
-                .frontImage(getImageContainersByFileName("1.jpg"))
+        Component component1 = new ComponentBuilder(collage, getImageContainersByFileName("1.jpg"))
                 .relativeWidth(0.5)
                 .relativePosition(new Point(0.1, 0.1))
                 .z(2)
                 .build();
         collage.addComponent(component1);
 
-        Component component2 = new ComponentBuilder(collage, Stream.of("3.png").map(this::getImageContainersByFileName).collect(Collectors.toList()))
-                .frontImage(getImageContainersByFileName("3.png"))
+        Component component2 = new ComponentBuilder(collage, getImageContainersByFileName("2.jpg"))
                 .relativeWidth(0.3)
                 .relativePosition(new Point(0.05, 0.05))
                 .z(3)
                 .build();
         collage.addComponent(component2);
 
-        Component component3 = new ComponentBuilder(collage, Stream.of("5.png", "6.jpg").map(this::getImageContainersByFileName).collect(Collectors.toList()))
-                .frontImage(getImageContainersByFileName("5.png"))
+        Component component3 = new ComponentBuilder(collage, getImageContainersByFileName("3.png"))
                 .relativeWidth(0.4)
                 .relativePosition(new Point(0, 0))
                 .z(1)

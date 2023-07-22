@@ -1,7 +1,5 @@
 package com.katyshevtceva.collage.logic;
 
-import com.katyshevtseva.general.OneInOneOutKnob;
-import com.katyshevtseva.image.ImageContainer;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -11,12 +9,6 @@ public class CollageBuilder {
     private int width = 500;
     private int height = 500;
     private List<Image> allExistingImages = new ArrayList<>();
-    private OneInOneOutKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier;
-
-    public CollageBuilder availableToAddToComponentImagesSupplier(OneInOneOutKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier) {
-        this.availableToAddToComponentImagesSupplier = availableToAddToComponentImagesSupplier;
-        return this;
-    }
 
     public CollageBuilder width(int width) {
         this.width = width;
@@ -34,7 +26,7 @@ public class CollageBuilder {
     }
 
     public Collage build() {
-        return new Collage(createPane(), allExistingImages, availableToAddToComponentImagesSupplier);
+        return new Collage(createPane(), allExistingImages);
     }
 
     private Pane createPane() {

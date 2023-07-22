@@ -7,7 +7,6 @@ import javafx.scene.image.ImageView;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,18 +21,12 @@ public class StaticComponent {
     private final double relativeWidth;
     @Getter(AccessLevel.PACKAGE)
     private final int z;
-    private final boolean severalImages;
-    private ImageView severalImagesMarker;
 
-    public StaticComponent(ImageContainer imageContainer, Point relativePosition, double relativeWidth, int z, boolean severalImages) {
+    public StaticComponent(ImageContainer imageContainer, Point relativePosition, double relativeWidth, int z) {
         this.image = new Image(imageContainer);
         this.relativePosition = relativePosition;
         this.relativeWidth = relativeWidth;
         this.z = z;
-        this.severalImages = severalImages;
-
-        if (severalImages)
-            severalImagesMarker = new ImageView(ButtonImageFactory.getInstance().getImageSwitcherImage());
 
         validate();
     }
@@ -48,17 +41,10 @@ public class StaticComponent {
         double y = relativePosition.getY() * collageSize.getHeight();
         image.setX(x);
         image.setY(y);
-
-        if (severalImages) {
-            severalImagesMarker.setFitWidth(collageSize.getWidth() * 0.07);
-            severalImagesMarker.setFitHeight(collageSize.getWidth() * 0.07);
-            severalImagesMarker.setX(x);
-            severalImagesMarker.setY(y);
-        }
     }
 
     List<ImageView> getImageViews() {
-        return severalImages ? Arrays.asList(image.getImageView(), severalImagesMarker) : Collections.singletonList(image.getImageView());
+        return Collections.singletonList(image.getImageView());
     }
 
     private void validate() {

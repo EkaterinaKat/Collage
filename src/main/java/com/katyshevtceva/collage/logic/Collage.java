@@ -2,14 +2,12 @@ package com.katyshevtceva.collage.logic;
 
 import com.katyshevtseva.fx.dialog.StandardDialogBuilder;
 import com.katyshevtseva.general.OneArgKnob;
-import com.katyshevtseva.general.OneInOneOutKnob;
 import com.katyshevtseva.image.ImageContainer;
 import javafx.scene.layout.Pane;
 import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,12 +19,10 @@ public class Collage {
     @Getter(AccessLevel.PACKAGE)
     private final List<Image> allExistingImages;
     private final Pane pane;
-    private final OneInOneOutKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier;
 
-    Collage(Pane pane, List<Image> allExistingImages, OneInOneOutKnob<ImageContainer, List<Image>> availableToAddToComponentImagesSupplier) {
+    Collage(Pane pane, List<Image> allExistingImages) {
         this.pane = pane;
         this.allExistingImages = allExistingImages;
-        this.availableToAddToComponentImagesSupplier = availableToAddToComponentImagesSupplier;
         new ModificationEngine(this);
     }
 
@@ -44,7 +40,7 @@ public class Collage {
 
     public OneArgKnob<ImageContainer> getComponentAdder() {
         return imageContainer -> addComponent(
-                new ComponentBuilder(this, Collections.singletonList(((Image) imageContainer).getImageContainer()))
+                new ComponentBuilder(this, ((Image) imageContainer).getImageContainer())
                         .build());
     }
 
@@ -80,25 +76,17 @@ public class Collage {
         pane.getChildren().clear();
         components.sort(Comparator.comparing(Component::getZ));
         for (Component component : components) {
-            pane.getChildren().addAll(component.getFrontImageWithButtons());
+            pane.getChildren().addAll(component.getImageWithButtons());
         }
     }
 
     List<Image> getFreeImages() {
         return allExistingImages.stream().filter(image -> {
             for (Component component : components)
-                if (component.getImages().contains(image))
+                if (component.getImage().equals(image))
                     return false;
             return true;
         }).collect(Collectors.toList());
-    }
-
-    List<Image> getImagesAvailableToAddToExistingOne(Image image) {
-        if (availableToAddToComponentImagesSupplier != null) {
-            return availableToAddToComponentImagesSupplier.execute(image.getImageContainer());
-        } else {
-            return getFreeImages();
-        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////

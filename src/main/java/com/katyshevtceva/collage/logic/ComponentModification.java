@@ -4,17 +4,13 @@ import com.katyshevtseva.fx.Point;
 import javafx.scene.input.MouseEvent;
 
 class ComponentModification {
-    private Component component;
-    private ComponentModification.ModificationType modificationType;
-    private Point cursorInitPos;
-    private Point imageInitPos;
+    private final Component component;
+    private final ComponentModification.ModificationType modificationType;
+    private final Point cursorInitPos;
+    private final Point imageInitPos;
 
     static ComponentModification getModificationIfNeededOrNull(Component component, MouseEvent dragEvent) {
         Point dragStartPoint = new Point(dragEvent.getX(), dragEvent.getY());
-
-        if (component.imageSwitcherContainsPoint(dragStartPoint)) {
-            return new ComponentModification(ModificationType.IMAGE_SWITCHING, null, component);
-        }
 
         if (component.sizeAdjusterContainsPoint(dragStartPoint)) {
             return new ComponentModification(ModificationType.RESIZING, dragStartPoint, component);
@@ -35,7 +31,7 @@ class ComponentModification {
     }
 
     private enum ModificationType {
-        RESIZING, MOVING, IMAGE_SWITCHING
+        RESIZING, MOVING
     }
 
     void reportDragEvent(MouseEvent event) {
